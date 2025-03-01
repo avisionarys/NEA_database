@@ -31,7 +31,7 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
     @IBOutlet weak var tableView: UITableView!
     
     var Workouts: [String] = []
-    
+    //change the screen using the seg called "segues "
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segues" {
             if let secondVC = segue.destination as? exercisesViewController {
@@ -141,59 +141,7 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
     }
     
  
-    
-    /*
-    // finding the maximum wieght for the bench press exercise as first iteration //
-     func findMaxBenchPressWeight(completion: @escaping (Result<Double, Error>) -> Void) {
-         guard let user = Auth.auth().currentUser else { // chekcs user authentication, guard = readability
-             completion(.failure(NSError(domain: "User not authenticated", code: 0, userInfo: nil)))
-             return
-         }
-         let userID = user.uid //defining constants so that the correct location can be recalled//
-         let username = Auth.auth().currentUser?.email ?? "No username"
-         let sanitizedUsername = sanitizeString(string: username)
-            //referances data//
-         let usersDataRef = database.child("users_data").child(userID).child(sanitizedUsername)
-            /*retrieves the users workout data using the observesinglevent by accessing childnodes
-             and converting them into an array of ojbjects*/
-         usersDataRef.observeSingleEvent(of: .value) { snapshot in
-             guard let workoutsSnapshot = snapshot.children.allObjects as? [DataSnapshot] else {
-                 completion(.failure(NSError(domain: "Invalid data format", code: 0, userInfo: nil)))
-                 return
-             }
-            //defines the array
-             var benchPressWeights: [Double] = []
-             //iterates through the users workout data to find all instances of bench press //
-             for workoutSnapshot in workoutsSnapshot {
-                 guard let workoutData = workoutSnapshot.value as? [String: Any],
-                       let exercises = workoutData["exercises"] as? [String: Any] else {
-                     continue
-                 }
-                //takes the weight for each bench press exercise, checks if a string or double and converts to double to check the maximum one//
-                 for (exerciseName, exerciseData) in exercises {
-                     if exerciseName == "bench press" {
-                         if let weight = exerciseData["weight"] as? Double {
-                             benchPressWeights.append(weight)
-                         } else if let weightString = exerciseData["weight"] as? String, let weight = Double(weightString) {
-                             benchPressWeights.append(weight) //Handle if weight is a String
-                         } else {
-                             print("Warning: 'weight' key not found or not a number for bench press.")
-                         }
-                     }
-                 }
-             }
-             //hanldes situation if the array is empty //
-             if benchPressWeights.isEmpty {
-                 completion(.success(0.0))
-             } else {
-                 let maxWeight = benchPressWeights.max()!
-                 completion(.success(maxWeight))
-             }
-         }
-     }
 
-
-*/
     // finding the maximum wieght for the bench press exercise as first iteration //
     func findMaxBenchPressWeight(completion: @escaping (Result<Double, Error>) -> Void) {
         guard let user = Auth.auth().currentUser else { // chekcs user authentication, guard = readability

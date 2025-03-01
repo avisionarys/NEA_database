@@ -8,10 +8,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Starting View Controller-->
         <scene sceneID="GEK-Xb-oYj">
             <objects>
-                <viewController id="PNs-ea-15o" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="startingViewController" id="PNs-ea-15o" customClass="startingViewController" customModule="NEA" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cHR-IZ-JIM">
                         <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -35,7 +35,7 @@
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <segue destination="VYi-xg-nQm" kind="show" id="d8U-mu-yCj"/>
+                                    <action selector="registerButton:" destination="PNs-ea-15o" eventType="touchUpInside" id="piR-dc-d9O"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TsQ-Ut-LiR">
@@ -48,7 +48,7 @@
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <segue destination="cWc-fV-gvO" kind="show" id="xUj-so-bqW"/>
+                                    <action selector="loginButton:" destination="PNs-ea-15o" eventType="touchUpInside" id="yqQ-rT-aYH"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -67,6 +67,10 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="tdd-Dq-JSn"/>
+                    <connections>
+                        <segue destination="cWc-fV-gvO" kind="show" identifier="registerScreen" id="NyZ-TR-3VM"/>
+                        <segue destination="VYi-xg-nQm" kind="show" identifier="loginScreen" id="Rld-rl-PUS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aJ0-rS-oDp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -294,7 +298,7 @@
                                     <color key="baseForegroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <segue destination="SBt-Dj-16N" kind="show" id="KbL-EI-Q5j"/>
+                                    <action selector="startWorkoutPressed:" destination="yCc-fb-SgY" eventType="touchUpInside" id="YWN-b3-1KN"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -337,9 +341,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="mtUIView" destination="eOB-iK-lYV" id="8NN-8x-bzZ"/>
-                        <outlet property="prUIView" destination="Uay-f6-O9n" id="0mn-lx-s4t"/>
+                        <outlet property="myTemplatesUIView" destination="eOB-iK-lYV" id="Tqt-di-nWx"/>
+                        <outlet property="providedTemplatesUIView" destination="Uay-f6-O9n" id="bH4-8s-1lC"/>
                         <outlet property="segmentOutlet" destination="8gg-TA-jdz" id="YdI-xW-pal"/>
+                        <segue destination="SBt-Dj-16N" kind="show" identifier="startWorkout" id="7yQ-kI-NgH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pbz-4k-6mh" sceneMemberID="firstResponder"/>
@@ -488,8 +493,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="mtTableView" destination="Q3X-x8-59J" id="iry-RR-k5Z"/>
-                        <outlet property="ptTableView" destination="Q3X-x8-59J" id="lFw-82-jLU"/>
+                        <outlet property="myTemplatesTableView" destination="Q3X-x8-59J" id="Nlx-N0-3zY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iJu-bi-uMa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -526,7 +530,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="ptTableView" destination="wtX-bt-sQO" id="pPS-e3-6kf"/>
+                        <outlet property="providedTemplatesTableView" destination="wtX-bt-sQO" id="vb3-Gl-gda"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vcH-AL-bdQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -535,7 +539,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="eUn-Gd-F3g"/>
+        <segue reference="Urk-6p-HfH"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Apple" width="24" height="24"/>

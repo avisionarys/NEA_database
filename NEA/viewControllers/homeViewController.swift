@@ -12,49 +12,49 @@ import Firebase
 import FirebaseDatabase
 
 class homeViewController: UIViewController {
-    
+    //define variables to connect to the interface builder
     @IBOutlet weak var segmentOutlet: UISegmentedControl!
     
-    @IBOutlet weak var mtUIView: UIView!
-    @IBOutlet weak var prUIView: UIView!
+    @IBOutlet weak var myTemplatesUIView: UIView!
+    @IBOutlet weak var providedTemplatesUIView: UIView!
     
-    @IBOutlet weak var ptTableView: UITableView!
-    @IBOutlet weak var mtTableView: UITableView!
+    @IBOutlet weak var providedTemplatesTableView: UITableView!
+    @IBOutlet weak var myTemplatesTableView: UITableView!
     
  
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        //hide the backbutton that was inialsied by the navigation controller
         navigationItem.hidesBackButton = true
         
-        
-        if let mtView = mtUIView, let prView = prUIView {
-            self.view.bringSubviewToFront(mtView)
-            self.view.bringSubviewToFront(prView)
-            mtUIView.isHidden = true
-            prUIView.isHidden = false
+        //define constahts and make the UIviews display on the screen
+        if let myTemplatesView = myTemplatesUIView, let providedTemplatesView = providedTemplatesUIView {
+            self.view.bringSubviewToFront(myTemplatesView)
+            self.view.bringSubviewToFront(providedTemplatesView)
+            myTemplatesUIView.isHidden = true//defines which view is shown when the user enters the homescreen
+            providedTemplatesUIView.isHidden = false
         } else {
             print("values are nil")
         }
        
     }
 
-    
+    //switch statement connected to segmented controller
     @IBAction func SegmentedControll(_ sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex{
+        switch sender.selectedSegmentIndex{//if the user clicks on provided routines
         case 0:
-            prUIView.isHidden = false
-            mtUIView.isHidden = true
-        case 1:
-            prUIView.isHidden = true
-            mtUIView.isHidden = false
+            providedTemplatesUIView.isHidden = false
+            myTemplatesUIView.isHidden = true
+        case 1://if user clicks on templates
+            providedTemplatesUIView.isHidden = true
+            myTemplatesUIView.isHidden = false
             
-            
+            //the app will defult to the user being on the provided routines page
         default:
-            prUIView.isHidden = false
-            mtUIView.isHidden = true
+            providedTemplatesUIView.isHidden = false
+            myTemplatesUIView.isHidden = true
         }
         
         
@@ -62,12 +62,12 @@ class homeViewController: UIViewController {
         
     }
     
-    
+    //allow the user to logout of their account
     @IBAction func logOut(_ sender: UIBarButtonItem) {
-        do {
-            try Auth.auth().signOut()
+        do {    //try statement allows for error handling
+            try Auth.auth().signOut()//onces singed out, taken back to register/login page
             navigationController?.popToRootViewController(animated: true)
-        } catch let signOutError as NSError {
+        } catch let signOutError as NSError {//gets error and displays it 
             print("Error signing out: %@", signOutError)
         }
         
@@ -76,6 +76,10 @@ class homeViewController: UIViewController {
     }
     
 
+    @IBAction func startWorkoutPressed(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "startWorkout", sender: self)
+        
+    }
     
     
     
