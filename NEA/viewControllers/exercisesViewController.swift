@@ -80,7 +80,7 @@ extension exercisesViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         
-        let templateViewController = storyboard?.instantiateViewController(withIdentifier: "templateViewController") as! templateViewController
+        
        
         let exerciseName = exercises[indexPath.row].name
         delegate?.addExercise(workout: exerciseName)
