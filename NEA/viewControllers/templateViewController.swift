@@ -11,7 +11,7 @@ import FirebaseAuth
 import Firebase
 import FirebaseDatabase
 
-
+//creating a struct for the data
 struct WorkoutData: Codable, Identifiable {
     @DocumentID var id: String?
     let exerciseName: String
@@ -92,14 +92,13 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
             
         }
         
-        saveToFirestore(data: dataForExercise)
+        saveToFirebse(data: dataForExercise)
         
         
+        //the code for the fucntion that will take the data and save it to firebase
         
-        
-        func saveToFirestore(data: [WorkoutData]) {
-            
-            
+        func saveToFirebse(data: [WorkoutData]) {
+            //checks user signed in and defines constants//
             if let user = Auth.auth().currentUser {
                 let userID = user.uid
                 let workoutID  = UUID().uuidString
@@ -107,22 +106,21 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
                 
                 let sanitizedUsername = sanitizeString(string:username)
                 
+                //starts creating the nodes in hirarchial structure//
+                
                 let workoutRef = database.child("users_data").child(userID).child(sanitizedUsername).child(workoutID)
-                
-                
-                
-                
+                //loops through each workoutData object in the dataforexercise array
                 for workoutData in data {
                     
-                    let workoutDataDictionary = workoutData.toDictionary()
+                    let workoutDataDictionary = workoutData.toDictionary()//converts data to dictionary format//
                     
-                    
+                    //saves the data to firebase under the exercises  node//
                     workoutRef.child("exercises").child(workoutData.exerciseName).setValue(workoutDataDictionary) { error, _ in
-                        if let error = error {
+                        if let error = error {   //error handling //
                             print("Error saving workout data: \(error)")
                         } else {
                             print("Workout data saved successfully")
-                            
+                            //changes screen back to homescreen//
                             if let viewControllers = self.navigationController?.viewControllers {
                                 for viewController in viewControllers {
                                     if viewController is homeViewController {
@@ -142,36 +140,36 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
         
     }
     
-    var maxWeight: Double? = nil
-    
+ 
     
     /*
-
+    // finding the maximum wieght for the bench press exercise as first iteration //
      func findMaxBenchPressWeight(completion: @escaping (Result<Double, Error>) -> Void) {
-         guard let user = Auth.auth().currentUser else {
+         guard let user = Auth.auth().currentUser else { // chekcs user authentication, guard = readability
              completion(.failure(NSError(domain: "User not authenticated", code: 0, userInfo: nil)))
              return
          }
-         let userID = user.uid
+         let userID = user.uid //defining constants so that the correct location can be recalled//
          let username = Auth.auth().currentUser?.email ?? "No username"
          let sanitizedUsername = sanitizeString(string: username)
-
+            //referances data//
          let usersDataRef = database.child("users_data").child(userID).child(sanitizedUsername)
-
+            /*retrieves the users workout data using the observesinglevent by accessing childnodes
+             and converting them into an array of ojbjects*/
          usersDataRef.observeSingleEvent(of: .value) { snapshot in
              guard let workoutsSnapshot = snapshot.children.allObjects as? [DataSnapshot] else {
                  completion(.failure(NSError(domain: "Invalid data format", code: 0, userInfo: nil)))
                  return
              }
-
+            //defines the array
              var benchPressWeights: [Double] = []
-
+             //iterates through the users workout data to find all instances of bench press //
              for workoutSnapshot in workoutsSnapshot {
                  guard let workoutData = workoutSnapshot.value as? [String: Any],
                        let exercises = workoutData["exercises"] as? [String: Any] else {
-                     continue //Skip if data is malformed
+                     continue
                  }
-
+                //takes the weight for each bench press exercise, checks if a string or double and converts to double to check the maximum one//
                  for (exerciseName, exerciseData) in exercises {
                      if exerciseName == "bench press" {
                          if let weight = exerciseData["weight"] as? Double {
@@ -184,9 +182,9 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
                      }
                  }
              }
-
+             //hanldes situation if the array is empty //
              if benchPressWeights.isEmpty {
-                 completion(.success(0.0)) // Or handle the case where no bench press data exists.
+                 completion(.success(0.0))
              } else {
                  let maxWeight = benchPressWeights.max()!
                  completion(.success(maxWeight))
@@ -196,32 +194,33 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
 
 
 */
-    
+    // finding the maximum wieght for the bench press exercise as first iteration //
     func findMaxBenchPressWeight(completion: @escaping (Result<Double, Error>) -> Void) {
-        guard let user = Auth.auth().currentUser else {
+        guard let user = Auth.auth().currentUser else { // chekcs user authentication, guard = readability
             completion(.failure(NSError(domain: "User not authenticated", code: 0, userInfo: nil)))
             return
         }
-        let userID = user.uid
+        let userID = user.uid//defining constants so that the correct location can be recalled//
         let username = Auth.auth().currentUser?.email ?? "No username"
         let sanitizedUsername = sanitizeString(string: username)
-
+        //referances data//
         let usersDataRef = database.child("users_data").child(userID).child(sanitizedUsername)
-
+        /*retrieves the users workout data using the observesinglevent by accessing childnodes
+         and converting them into an array of ojbjects*/
         usersDataRef.observeSingleEvent(of: .value, with: { snapshot in
             guard let workoutsSnapshot = snapshot.children.allObjects as? [DataSnapshot] else {
                 completion(.failure(NSError(domain: "Invalid data format", code: 0, userInfo: nil)))
                 return
             }
-
+            //defines the array
             var benchPressWeights: [Double] = []
-
+            //iterates through the users workout data to find all instances of bench press //
             for workoutSnapshot in workoutsSnapshot {
                 guard let workoutData = workoutSnapshot.value as? [String: Any],
                       let exercises = workoutData["exercises"] as? [String: Any] else {
-                    continue // Skip if data is malformed
+                    continue
                 }
-
+                //takes the weight for each bench press exercise, checks if a string or double and converts to double to check the maximum one//
                 for (exerciseName, exerciseData) in exercises {
                     if exerciseName == "bench press" {
                         // Cast exerciseData to [String: Any] before subscripting
@@ -230,7 +229,7 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
                                 benchPressWeights.append(weight)
                             } else if let weightString = exerciseDetails["weight"] as? String,
                                       let weight = Double(weightString) {
-                                benchPressWeights.append(weight) // Handle if weight is a String
+                                benchPressWeights.append(weight)
                             } else {
                                 print("Warning: 'weight' key not found or not a number for bench press.")
                             }
@@ -240,9 +239,9 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
                     }
                 }
             }
-
+            //hanldes situation if the array is empty //
             if benchPressWeights.isEmpty {
-                completion(.success(0.0)) // Or handle the case where no bench press data exists.
+                completion(.success(0.0))
             } else {
                 let maxWeight = benchPressWeights.max()!
                 completion(.success(maxWeight))
@@ -253,27 +252,13 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
         }
     }
 
-
-
-
-
-
-    
-
-
-
-    
-    
     @IBAction func actionaction(_ sender: UIButton) {
-      /*  findMaxWeightForExercise(exerciseName: "bench press")*/
         findMaxBenchPressWeight { result in
             switch result {
             case .success(let maxWeight):
                 print("Max bench press weight: \(maxWeight)")
-                // Update your UI here
             case .failure(let error):
                 print("Error fetching max weight: \(error)")
-                // Handle the error (e.g., display an alert)
             }
         }
     }
@@ -283,22 +268,6 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
     
     
     
-
-
-            
-
-
-    
-    
-    
-    
-
-
-
-
-
-
-
 
 extension templateViewController: UITableViewDataSource {
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -316,7 +285,7 @@ extension templateViewController: UITableViewDataSource {
     
     
 }
-
+//creating the dictionary for the workout data
 extension WorkoutData {
     func toDictionary() -> [String: Any] {
         return [
