@@ -70,14 +70,7 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
     }
 
 
-   
-
-
-
-    
-    
-    
-    override func viewDidLoad() {
+   override func viewDidLoad() {
         super.viewDidLoad()
         
         exerciseTableView.dataSource = self
@@ -188,55 +181,55 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
  
 
     // finding the maximum wieght for the bench press exercise as first iteration //
-    func findMaxBenchPressWeight(completion: @escaping (Result<Double, Error>) -> Void) {
-        guard let user = Auth.auth().currentUser else { // chekcs user authentication, guard = readability
+    func findMaxExerciseWeight(for nameOfExercise: String, completion: @escaping (Result<Double, Error>) -> Void) {
+        guard let user = Auth.auth().currentUser else { // checks user authentication, guard = readability
             completion(.failure(NSError(domain: "User not authenticated", code: 0, userInfo: nil)))
             return
         }
-        let userID = user.uid//defining constants so that the correct location can be recalled//
+        let userID = user.uid // defining constants so that the correct location can be recalled
         let username = Auth.auth().currentUser?.email ?? "No username"
         let sanitizedUsername = sanitizeString(string: username)
-        //referances data//
+        // references data
         let usersDataRef = database.child("users_data").child(userID).child(sanitizedUsername)
-        /*retrieves the users workout data using the observesinglevent by accessing childnodes
-         and converting them into an array of ojbjects*/
+        /* retrieves the user's workout data using the observeSingleEvent by accessing child nodes
+         and converting them into an array of objects */
         usersDataRef.observeSingleEvent(of: .value, with: { snapshot in
             guard let workoutsSnapshot = snapshot.children.allObjects as? [DataSnapshot] else {
                 completion(.failure(NSError(domain: "Invalid data format", code: 0, userInfo: nil)))
                 return
             }
-            //defines the array
-            var benchPressWeights: [Double] = []
-            //iterates through the users workout data to find all instances of bench press //
+            // defines the array
+            var exerciseWeights: [Double] = []
+            // iterates through the user's workout data to find all instances of the specified exercise
             for workoutSnapshot in workoutsSnapshot {
                 guard let workoutData = workoutSnapshot.value as? [String: Any],
                       let exercises = workoutData["exercises"] as? [String: Any] else {
                     continue
                 }
-                //takes the weight for each bench press exercise, checks if a string or double and converts to double to check the maximum one//
+                // takes the weight for each specified exercise, checks if a string or double and converts to double to check the maximum one
                 for (exerciseName, exerciseData) in exercises {
-                    if exerciseName == "bench press" {
+                    if exerciseName == nameOfExercise {
                         // Cast exerciseData to [String: Any] before subscripting
                         if let exerciseDetails = exerciseData as? [String: Any] {
                             if let weight = exerciseDetails["weight"] as? Double {
-                                benchPressWeights.append(weight)
+                                exerciseWeights.append(weight)
                             } else if let weightString = exerciseDetails["weight"] as? String,
                                       let weight = Double(weightString) {
-                                benchPressWeights.append(weight)
+                                exerciseWeights.append(weight)
                             } else {
-                                print("Warning: 'weight' key not found or not a number for bench press.")
+                                print("Warning: 'weight' key not found or not a number for \(nameOfExercise).")
                             }
                         } else {
-                            print("Warning: 'exerciseData' is not a dictionary for bench press.")
+                            print("Warning: 'exerciseData' is not a dictionary for \(nameOfExercise).")
                         }
                     }
                 }
             }
-            //hanldes situation if the array is empty //
-            if benchPressWeights.isEmpty {
+            // handles situation if the array is empty
+            if exerciseWeights.isEmpty {
                 completion(.success(0.0))
             } else {
-                let maxWeight = benchPressWeights.max()!
+                let maxWeight = exerciseWeights.max()!
                 completion(.success(maxWeight))
             }
         }) { error in
@@ -245,13 +238,17 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
         }
     }
 
-    @IBAction func actionaction(_ sender: UIButton) {
-        findMaxBenchPressWeight { result in
+    func actionaction(name: String, completion: @escaping (String?) -> Void) {
+        let nameOfExercise = name // Replace with the desired exercise name
+        findMaxExerciseWeight(for: nameOfExercise) { result in
             switch result {
             case .success(let maxWeight):
-                print("Max bench press weight: \(maxWeight)")
+                print("Max \(nameOfExercise) weight: \(maxWeight)")
+                let weightLabel = "\(maxWeight)"
+                completion(weightLabel) // Return the label via the completion handler
             case .failure(let error):
                 print("Error fetching max weight: \(error)")
+                completion(nil) // Return nil in case of an error
             }
         }
     }
@@ -270,6 +267,16 @@ extension templateViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellReused", for: indexPath) as!  TemplateTableViewCell
         cell.nameOfExercise.text = Workouts[indexPath.row]
+        var theName = cell.nameOfExercise.text ?? "No text"
+        actionaction(name: theName) { weightLabel in
+            if let weightLabel = weightLabel {
+                print("Label: \(weightLabel)")
+                cell.previousWeight.text = weightLabel
+            } else {
+                print("Failed to fetch the label.")
+            }
+        }
+        
         
         /*printing = String("Cell \(indexPath.row): nameOfExercise.text = \(cell.nameOfExercise.text ?? "No text"), weight = \(cell.weightTextField.text ?? "No text"). reps \(cell.repsTextField.text ?? "No text")") */
         
