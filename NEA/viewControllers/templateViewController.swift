@@ -180,7 +180,7 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
     
  
 
-    // finding the maximum wieght for the bench press exercise as first iteration //
+    // finding the max weight for each exercise //
     func findMaxExerciseWeight(for nameOfExercise: String, completion: @escaping (Result<Double, Error>) -> Void) {
         guard let user = Auth.auth().currentUser else { // checks user authentication, guard = readability
             completion(.failure(NSError(domain: "User not authenticated", code: 0, userInfo: nil)))
@@ -238,17 +238,19 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
         }
     }
 
-    func actionaction(name: String, completion: @escaping (String?) -> Void) {
-        let nameOfExercise = name // Replace with the desired exercise name
+    func getMaxWeight(name: String, completion: @escaping (String?) -> Void) {
+        //sets the constant to be pulled as the parameter
+        let nameOfExercise = name
+        //switch statement so that if and error, it will display it
         findMaxExerciseWeight(for: nameOfExercise) { result in
             switch result {
             case .success(let maxWeight):
                 print("Max \(nameOfExercise) weight: \(maxWeight)")
                 let weightLabel = "\(maxWeight)"
-                completion(weightLabel) // Return the label via the completion handler
+                completion(weightLabel) // Return the label using the completion handler//
             case .failure(let error):
                 print("Error fetching max weight: \(error)")
-                completion(nil) // Return nil in case of an error
+                completion(nil)
             }
         }
     }
@@ -266,14 +268,14 @@ extension templateViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellReused", for: indexPath) as!  TemplateTableViewCell
-        cell.nameOfExercise.text = Workouts[indexPath.row]
+        cell.nameOfExercise.text = Workouts[indexPath.row]//sets the name of the exercise in the cell to the clicked on cell by the user from exerciseViewController
         var theName = cell.nameOfExercise.text ?? "No text"
-        actionaction(name: theName) { weightLabel in
+        getMaxWeight(name: theName) { weightLabel in // calls the function to get the weight for that exercise
             if let weightLabel = weightLabel {
                 print("Label: \(weightLabel)")
-                cell.previousWeight.text = weightLabel
+                cell.previousWeight.text = weightLabel//sets the weight
             } else {
-                print("Failed to fetch the label.")
+                print("Failed to fetch the label.")//if unable , will print error
             }
         }
         
