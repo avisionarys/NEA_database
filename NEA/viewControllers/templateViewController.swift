@@ -40,6 +40,41 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
         }
     }
     
+    func recallMuscleGroup(for exerciseName: String, completion: @escaping (String?) -> Void) {
+            database.child("exercises").child(exerciseName).observeSingleEvent(of: .value) { snapshot in
+                if let value = snapshot.value as? [String: Any] {
+                    if let muscleArea = value["muscleArea"] as? String,
+                       let muscle = value["muscle"] as? String {
+                        print("Exercise: \(exerciseName)")
+                        print("Muscle Area: \(muscleArea)")
+                        print("Muscle: \(muscle)")
+                        completion(muscle) // Return the muscle via completion handler
+                    } else {
+                        print("Error retrieving details for \(exerciseName).")
+                        completion(nil) // Return nil if muscle details are missing
+                    }
+                } else {
+                    print("No data found for exercise: \(exerciseName)")
+                    completion(nil) // Return nil if no data is found
+                }
+            } withCancel: { error in
+                print("Error fetching data: \(error.localizedDescription)")
+                completion(nil) // Return nil on error
+            }
+    }
+    
+    func getMuscleForExercise(exerciseName: String, completion: @escaping (String?) -> Void) {
+        recallMuscleGroup(for: exerciseName) { muscle in
+            completion(muscle)
+        }
+    }
+
+
+   
+
+
+
+    
     
     
     override func viewDidLoad() {
@@ -69,58 +104,29 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
         return sanitizedString
     }
     
-    
-    
-    var dataForExercise: [WorkoutData] = []
-    
-    @IBAction func saveWorkoutData(_ sender: UIBarButtonItem) {
-        
-        
-        
-        
-        
-        for i in 0..<tableView.numberOfRows(inSection: 0) {
-            guard let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as? TemplateTableViewCell else { continue }
-            let exerciseName = cell.nameOfExercise.text ?? ""
-            let weight = cell.weightTextField.text ?? ""
-            let reps = cell.repsTextField.text ?? ""
-            let muscleGroup = "chest"
-            
-            let workoutData = WorkoutData(exerciseName: exerciseName, weight: weight, reps: reps, muscleGroup: muscleGroup)
-            dataForExercise.append(workoutData)
-            
-            
-        }
-        
-        saveToFirebse(data: dataForExercise)
-        
-        
-        //the code for the fucntion that will take the data and save it to firebase
-        
-        func saveToFirebse(data: [WorkoutData]) {
-            //checks user signed in and defines constants//
+    func saveToFirebase(data: [WorkoutData]) {
+            // Check if user is signed in
             if let user = Auth.auth().currentUser {
                 let userID = user.uid
-                let workoutID  = UUID().uuidString
+                let workoutID = UUID().uuidString
                 let username = Auth.auth().currentUser?.email ?? "No username"
-                
-                let sanitizedUsername = sanitizeString(string:username)
-                
-                //starts creating the nodes in hirarchial structure//
-                
+                let sanitizedUsername = sanitizeString(string: username)
+
+                // Create a reference to the Firebase node
                 let workoutRef = database.child("users_data").child(userID).child(sanitizedUsername).child(workoutID)
-                //loops through each workoutData object in the dataforexercise array
+
+                // Loop through each workout data object
                 for workoutData in data {
-                    
-                    let workoutDataDictionary = workoutData.toDictionary()//converts data to dictionary format//
-                    
-                    //saves the data to firebase under the exercises  node//
+                    let workoutDataDictionary = workoutData.toDictionary()
+
+                    // Save the data to Firebase
                     workoutRef.child("exercises").child(workoutData.exerciseName).setValue(workoutDataDictionary) { error, _ in
-                        if let error = error {   //error handling //
+                        if let error = error {
                             print("Error saving workout data: \(error)")
                         } else {
                             print("Workout data saved successfully")
-                            //changes screen back to homescreen//
+
+                            // Navigate back to the home screen
                             if let viewControllers = self.navigationController?.viewControllers {
                                 for viewController in viewControllers {
                                     if viewController is homeViewController {
@@ -136,9 +142,48 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
                 print("No user signed in")
             }
         }
+
+
+    
+    
+    
+    var dataForExercise: [WorkoutData] = []
+    let dispatchGroup = DispatchGroup()
+
+    @IBAction func saveWorkoutData(_ sender: UIBarButtonItem) {
         
+        for i in 0..<tableView.numberOfRows(inSection: 0) {
+            guard let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as? TemplateTableViewCell else { continue }
+            let exerciseName = cell.nameOfExercise.text ?? ""
+            let weight = cell.weightTextField.text ?? ""
+            let reps = cell.repsTextField.text ?? ""
+            var muscleGroup:String? = nil
+            
+            dispatchGroup.enter()
+
+                    getMuscleForExercise(exerciseName: exerciseName) { muscle in
+                        if let muscle = muscle {
+                            muscleGroup = muscle
+                        } else {
+                            print("Could not retrieve muscle information.")
+                        }
+
+                        // Create the workout data object
+                        let workoutData = WorkoutData(exerciseName: exerciseName, weight: weight, reps: reps, muscleGroup: muscleGroup ?? "nil")
+                        self.dataForExercise.append(workoutData)
+
+                        // Leave the dispatch group after the async task is complete
+                        self.dispatchGroup.leave()
+                    }
+                }
+
+                // Notify when all tasks in the dispatch group are complete
+                dispatchGroup.notify(queue: .main) {
+                    // Save to Firebase after all async tasks are done
+                    self.saveToFirebase(data: self.dataForExercise)
+                }
         
-    }
+        }
     
  
 

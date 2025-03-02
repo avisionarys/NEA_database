@@ -10,5 +10,7 @@ import Foundation
 
 struct exercise{
     let name: String
+    let muscleArea: String
+    let muscle: String
     
 }

@@ -6,6 +6,10 @@
 //
 
 import UIKit
+import FirebaseFirestore
+import FirebaseAuth
+import Firebase
+import FirebaseDatabase
 
 
 protocol MyProtocol{
@@ -21,30 +25,41 @@ class exercisesViewController: UIViewController {
     var selectedWorkout: String?
     
     @IBOutlet weak var exerciseTableView: UITableView!
-
+    
+    let database  = Database.database().reference()
     
     var exercises: [exercise] = [
-        exercise(name: "Ab Wheel"),
-        exercise(name: "bench press"),
-        exercise(name: "bent over rows"),
-        exercise(name: "chest dip"),
-        exercise(name: "bicep curl"),
-        exercise(name: "deadlift"),
-        exercise(name: "face pull cable"),
-        exercise(name: "incline bench press"),
-        exercise(name: "lat pulldown"),
-        exercise(name: "overhead press"),
-        exercise(name: "precher curl"),
-        exercise(name: "squat"),
-        exercise(name: "seated row"),
-        exercise(name: "tricep pushdown"),
-        exercise(name: "tricep dip")
-
-        
-        
-        
-        
+        exercise(name: "bench press",muscleArea:"upperBody",muscle: "chest"),
+        exercise(name: "bent over rows",muscleArea:"upperBody",muscle: "back"),
+        exercise(name: "lying leg curls", muscleArea: "lowerBody", muscle: "hamstring"),
+        exercise(name: "calve press",muscleArea: "lower body", muscle: "calves"),
+        exercise(name:"leg extentions", muscleArea: "lower body", muscle: "quads"),
+        exercise(name: "neck curl", muscleArea: "upper body", muscle: "neck"),
+        exercise(name: "cabel crunch", muscleArea: "upper body", muscle: "abs"),
+        exercise(name: "shoulder press", muscleArea: "upper body", muscle: "shoulders"),
+        exercise(name: "overhand write curl", muscleArea: "forearms", muscle: "forearms"),
+        exercise(name:"tricep dips", muscleArea: "upper body", muscle: "triceps")
     ]
+    
+    func saveExercises(){
+        var exercisesDictionary: [String: Any] = [:]
+        for exercise in exercises {
+            exercisesDictionary[exercise.name] = [
+                "muscleArea": exercise.muscleArea,
+                "muscle": exercise.muscle
+            ]
+        }
+        
+        database.child("exercises").setValue(exercisesDictionary) { error, _ in
+            if let error = error {
+                print("Error saving data: \(error.localizedDescription)")
+            } else {
+                print("Data saved successfully!")
+            }
+        }
+    }
+
+   
     
     
     override func viewDidLoad() {
@@ -52,7 +67,7 @@ class exercisesViewController: UIViewController {
         //set the exerciseTableView to the extentions
         exerciseTableView.dataSource = self
         exerciseTableView.delegate = self
-
+        //saveExercises()
         title = "Exercises"
     }
     
