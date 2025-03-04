@@ -328,6 +328,9 @@
                                     <segment title="workout"/>
                                     <segment title="profile"/>
                                 </segments>
+                                <connections>
+                                    <action selector="homeSegPressed:" destination="yCc-fb-SgY" eventType="valueChanged" id="xjd-HC-LbJ"/>
+                                </connections>
                             </segmentedControl>
                             <containerView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uay-f6-O9n">
                                 <rect key="frame" x="3" y="276" width="390" height="238"/>
@@ -393,10 +396,12 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="homeViewSeg" destination="tDf-hq-JYX" id="2h3-3t-ieY"/>
                         <outlet property="myTemplatesUIView" destination="eOB-iK-lYV" id="Tqt-di-nWx"/>
                         <outlet property="providedTemplatesUIView" destination="Uay-f6-O9n" id="bH4-8s-1lC"/>
                         <outlet property="segmentOutlet" destination="8gg-TA-jdz" id="YdI-xW-pal"/>
                         <segue destination="SBt-Dj-16N" kind="show" identifier="startWorkout" id="7yQ-kI-NgH"/>
+                        <segue destination="UGs-9S-lWS" kind="show" identifier="seeProgressSeg" id="c9p-Jt-5F2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pbz-4k-6mh" sceneMemberID="firstResponder"/>
@@ -546,6 +551,42 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iJu-bi-uMa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2501" y="461"/>
+        </scene>
+        <!--Progress View Controller-->
+        <scene sceneID="6Yt-xh-7CQ">
+            <objects>
+                <viewController storyboardIdentifier="progressViewController" id="UGs-9S-lWS" customClass="progressViewController" customModule="NEA" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tYU-7T-4tA">
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Sxf-cW-UU7">
+                                <rect key="frame" x="0.0" y="167" width="402" height="707"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseableCell" id="dx7-Nt-8d1">
+                                        <rect key="frame" x="0.0" y="50" width="402" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dx7-Nt-8d1" id="stH-IV-cFN">
+                                            <rect key="frame" x="0.0" y="0.0" width="402" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="EXY-7h-f6K"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Ces-yj-OCu"/>
+                    <connections>
+                        <outlet property="muscleGroupsTable" destination="Sxf-cW-UU7" id="zQ8-3d-bav"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="K4j-2X-lB5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1771.641791044776" y="799.77116704805485"/>
         </scene>
         <!--Arms View Controller-->
         <scene sceneID="QRM-Lg-fub">

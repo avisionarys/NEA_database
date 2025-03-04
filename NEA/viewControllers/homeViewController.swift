@@ -23,6 +23,7 @@ class homeViewController: UIViewController {
     
     @IBOutlet weak var armsWorkout: UIButton!
     
+    @IBOutlet weak var homeViewSeg: UISegmentedControl!
     
     
     override func viewDidLoad() {
@@ -90,6 +91,17 @@ class homeViewController: UIViewController {
     }
     
     
+    @IBAction func homeSegPressed(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex{
+        case 0:
+            self.performSegue(withIdentifier: "seeProgressSeg", sender: self )
+        default:
+            break
+        }
+        
+        
+        
+    }
     
   
     
