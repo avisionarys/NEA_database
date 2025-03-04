@@ -18,10 +18,11 @@ class homeViewController: UIViewController {
     @IBOutlet weak var myTemplatesUIView: UIView!
     @IBOutlet weak var providedTemplatesUIView: UIView!
     
-    @IBOutlet weak var providedTemplatesTableView: UITableView!
+    
     @IBOutlet weak var myTemplatesTableView: UITableView!
     
- 
+    @IBOutlet weak var armsWorkout: UIButton!
+    
     
     
     override func viewDidLoad() {
@@ -82,6 +83,11 @@ class homeViewController: UIViewController {
     }
     
     
+    @IBAction func armWorkoutPressed(_ sender: Any) {
+        self.performSegue(withIdentifier: "armsSeg", sender: self)
+        
+        
+    }
     
     
     
