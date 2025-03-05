@@ -98,9 +98,14 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
                 let workoutID = UUID().uuidString
                 let username = Auth.auth().currentUser?.email ?? "No username"
                 let sanitizedUsername = sanitizeString(string: username)
+                
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                let dateString = dateFormatter.string(from: Date())
+             
 
                 // Create a reference to the Firebase node
-                let workoutRef = database.child("users_data").child(userID).child(sanitizedUsername).child(workoutID)
+                let workoutRef = database.child("users_data").child(userID).child(sanitizedUsername).child(dateString).child(workoutID)
 
                 // Loop through each workout data object
                 for workoutData in data {
@@ -185,52 +190,56 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
         let sanitizedUsername = sanitizeString(string: username)
         // references data
         let usersDataRef = database.child("users_data").child(userID).child(sanitizedUsername)
-        /* retrieves the user's workout data using the observeSingleEvent by accessing child nodes
+        /* retrieves the user's dates containing workout data using the observeSingleEvent by accessing child nodes
          and converting them into an array of objects */
-        usersDataRef.observeSingleEvent(of: .value, with: { snapshot in
-            guard let workoutsSnapshot = snapshot.children.allObjects as? [DataSnapshot] else {
-                completion(.failure(NSError(domain: "Invalid data format", code: 0, userInfo: nil)))
-                return
-            }
-            // defines the array
-            var exerciseWeights: [Double] = []
-            // iterates through the user's workout data to find all instances of the specified exercise
-            for workoutSnapshot in workoutsSnapshot {
-                guard let workoutData = workoutSnapshot.value as? [String: Any],
-                      let exercises = workoutData["exercises"] as? [String: Any] else {
-                    continue
+        usersDataRef.observeSingleEvent(of: .value,with: { snapshot in
+                guard let datesSnapshot = snapshot.children.allObjects as? [DataSnapshot] else {
+                    completion(.failure(NSError(domain: "Invalid data format: No dates found", code: 0, userInfo: nil)))
+                    return
                 }
-                // takes the weight for each specified exercise, checks if a string or double and converts to double to check the maximum one
-                for (exerciseName, exerciseData) in exercises {
-                    if exerciseName == nameOfExercise {
-                        // Cast exerciseData to [String: Any] before subscripting
-                        if let exerciseDetails = exerciseData as? [String: Any] {
-                            if let weight = exerciseDetails["weight"] as? Double {
-                                exerciseWeights.append(weight)
-                            } else if let weightString = exerciseDetails["weight"] as? String,
-                                      let weight = Double(weightString) {
-                                exerciseWeights.append(weight)
-                            } else {
-                                print("Warning: 'weight' key not found or not a number for \(nameOfExercise).")
+                //defines the array
+                var exerciseWeights: [Double] = []
+                //iterates through each date stored in the datessnapshot
+                for dateSnapshot in datesSnapshot {
+                    guard let workoutsSnapshot = dateSnapshot.children.allObjects as? [DataSnapshot] else {
+                        continue// this retrives all the wokrouts under each date
+                    }
+                    // iterates through the user's workout data to find all instances of the specified exercise
+                    for workoutSnapshot in workoutsSnapshot {
+                        guard let workoutData = workoutSnapshot.value as? [String: Any],
+                              let exercises = workoutData["exercises"] as? [String: Any] else {
+                            continue
+                        }
+                        // takes the weight for each specific exercise, checks if a string or double and converts to a double to check the maximunm one
+                        for (exerciseName, exerciseData) in exercises {
+                            if exerciseName == nameOfExercise {
+                                if let exerciseDetails = exerciseData as? [String: Any],
+                                   let weight = exerciseDetails["weight"] as? Double {
+                                    exerciseWeights.append(weight)
+                                } else if let exerciseDetails = exerciseData as? [String: Any],
+                                         let weightString = exerciseDetails["weight"] as? String,
+                                         let weight = Double(weightString) {
+                                    exerciseWeights.append(weight)
+                                } else {
+                                    print("Warning: 'weight' key not found or not a number for \(nameOfExercise).")
+                                }
                             }
-                        } else {
-                            print("Warning: 'exerciseData' is not a dictionary for \(nameOfExercise).")
                         }
                     }
                 }
+                //handles the situation if the array is empty
+                if exerciseWeights.isEmpty {
+                    completion(.success(0.0))
+                } else {
+                    let maxWeight = exerciseWeights.max()!
+                    completion(.success(maxWeight))
+                }
+            }){ error in
+                //handles any errros that occur during the observation 
+                completion(.failure(error))
             }
-            // handles situation if the array is empty
-            if exerciseWeights.isEmpty {
-                completion(.success(0.0))
-            } else {
-                let maxWeight = exerciseWeights.max()!
-                completion(.success(maxWeight))
-            }
-        }) { error in
-            // Handle any errors that occur during the observation
-            completion(.failure(error))
         }
-    }
+    
 
     func getMaxWeight(name: String, completion: @escaping (String?) -> Void) {
         //sets the constant to be pulled as the parameter
