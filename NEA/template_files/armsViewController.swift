@@ -19,9 +19,9 @@ class armsViewController: UIViewController {
     
     
     var exercises: [exercise] = [
-        exercise(name: "shoulder press", muscleArea: "upper body", muscle: "shoulders"),
-        exercise(name: "overhand write curl", muscleArea: "forearms", muscle: "forearms"),
-        exercise(name:"tricep dips", muscleArea: "upper body", muscle: "triceps")
+        exercise(name: "shoulder press", muscleArea: "arms", muscle: "shoulders"),
+        exercise(name: "overhand write curl", muscleArea: "arms", muscle: "forearms"),
+        exercise(name:"tricep dips", muscleArea: "arms", muscle: "triceps")
     ]
     
     

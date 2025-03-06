@@ -98,7 +98,7 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
                 let workoutID = UUID().uuidString
                 let username = Auth.auth().currentUser?.email ?? "No username"
                 let sanitizedUsername = sanitizeString(string: username)
-                
+                //finding the date and setting it to a constant
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 let dateString = dateFormatter.string(from: Date())
