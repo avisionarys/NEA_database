@@ -19,10 +19,33 @@ class progressViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         muscleGroupsTable.dataSource = self
+        //hides the back button back to the register/login screen set by the navigation controller
+        navigationItem.hidesBackButton = true
+        
         
         
     }
-    
+    //created a function for the segmented controll
+    @IBAction func segmentedPressed(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex{
+        case 2://when the workout segmeent is pressed the screen changes back to the homescreen
+            if let viewControllers = self.navigationController?.viewControllers {
+                for viewController in viewControllers {
+                    if viewController is homeViewController {
+                        self.navigationController?.popToViewController(viewController, animated: true)
+                        return
+                    }
+                }
+            }
+            //if not pressed then the default is to break out switch statement
+        default:
+            break
+        }
+        
+        
+        
+        
+    }
     
     
     

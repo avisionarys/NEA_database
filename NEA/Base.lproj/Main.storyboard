@@ -320,18 +320,6 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Apple" translatesAutoresizingMaskIntoConstraints="NO" id="5FJ-GR-ESu">
                                 <rect key="frame" x="213" y="184" width="32" height="30.333333333333343"/>
                             </imageView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="tDf-hq-JYX">
-                                <rect key="frame" x="3" y="810" width="386" height="32"/>
-                                <segments>
-                                    <segment title="Progress"/>
-                                    <segment title="History"/>
-                                    <segment title="workout"/>
-                                    <segment title="profile"/>
-                                </segments>
-                                <connections>
-                                    <action selector="homeSegPressed:" destination="yCc-fb-SgY" eventType="valueChanged" id="xjd-HC-LbJ"/>
-                                </connections>
-                            </segmentedControl>
                             <containerView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uay-f6-O9n">
                                 <rect key="frame" x="3" y="276" width="390" height="238"/>
                                 <connections>
@@ -357,6 +345,18 @@
                                     <action selector="startWorkoutPressed:" destination="yCc-fb-SgY" eventType="touchUpInside" id="YWN-b3-1KN"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="tDf-hq-JYX">
+                                <rect key="frame" x="3" y="809" width="386" height="32"/>
+                                <segments>
+                                    <segment title="Progress"/>
+                                    <segment title="History"/>
+                                    <segment title="workout"/>
+                                    <segment title="profile"/>
+                                </segments>
+                                <connections>
+                                    <action selector="homeSegPressed:" destination="yCc-fb-SgY" eventType="valueChanged" id="xjd-HC-LbJ"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="drd-z4-Ovj"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -375,16 +375,16 @@
                             <constraint firstItem="Uay-f6-O9n" firstAttribute="leading" secondItem="drd-z4-Ovj" secondAttribute="leading" constant="3" id="QCT-pZ-SB4"/>
                             <constraint firstItem="8gg-TA-jdz" firstAttribute="top" secondItem="5FJ-GR-ESu" secondAttribute="bottom" constant="14" id="QeW-ZB-AHj"/>
                             <constraint firstItem="Uay-f6-O9n" firstAttribute="top" secondItem="8gg-TA-jdz" secondAttribute="bottom" constant="16.670000000000002" id="R6c-XM-xsg"/>
-                            <constraint firstItem="tDf-hq-JYX" firstAttribute="top" secondItem="eOB-iK-lYV" secondAttribute="bottom" constant="26" id="YEv-yj-fsZ"/>
+                            <constraint firstItem="tDf-hq-JYX" firstAttribute="top" secondItem="eOB-iK-lYV" secondAttribute="bottom" constant="25" id="XVo-g7-qes"/>
                             <constraint firstItem="GQy-6a-a5F" firstAttribute="trailing" secondItem="Xah-E5-FML" secondAttribute="trailingMargin" id="aX7-YG-e6z"/>
                             <constraint firstItem="eOB-iK-lYV" firstAttribute="leading" secondItem="drd-z4-Ovj" secondAttribute="leading" constant="3" id="agm-bP-W2Z"/>
+                            <constraint firstItem="tDf-hq-JYX" firstAttribute="bottom" secondItem="drd-z4-Ovj" secondAttribute="bottom" id="bMy-gS-OsP"/>
                             <constraint firstItem="GQy-6a-a5F" firstAttribute="top" secondItem="rEN-s2-1xw" secondAttribute="bottom" constant="37" id="c3l-jK-o83"/>
                             <constraint firstItem="GQy-6a-a5F" firstAttribute="top" secondItem="BSl-93-6fo" secondAttribute="bottom" constant="20" id="cGM-XE-oTQ"/>
                             <constraint firstItem="eOB-iK-lYV" firstAttribute="top" secondItem="Uay-f6-O9n" secondAttribute="bottom" constant="8" symbolic="YES" id="h9R-ZZ-pxb"/>
                             <constraint firstItem="drd-z4-Ovj" firstAttribute="trailing" secondItem="5FJ-GR-ESu" secondAttribute="trailing" constant="157" id="l7b-6L-5oK"/>
                             <constraint firstItem="5FJ-GR-ESu" firstAttribute="top" secondItem="Xah-E5-FML" secondAttribute="top" constant="184" id="mrE-Ex-2HV"/>
                             <constraint firstItem="5FJ-GR-ESu" firstAttribute="leading" secondItem="drd-z4-Ovj" secondAttribute="leading" constant="213" id="pdb-bW-rxp"/>
-                            <constraint firstAttribute="bottom" secondItem="tDf-hq-JYX" secondAttribute="bottom" constant="33" id="vbg-ca-LaK"/>
                             <constraint firstItem="drd-z4-Ovj" firstAttribute="trailing" secondItem="tDf-hq-JYX" secondAttribute="trailing" constant="13" id="zSh-W0-G5L"/>
                         </constraints>
                     </view>
@@ -396,7 +396,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="homeViewSeg" destination="tDf-hq-JYX" id="2h3-3t-ieY"/>
+                        <outlet property="homeViewSeg" destination="tDf-hq-JYX" id="MYw-iL-HeK"/>
                         <outlet property="myTemplatesUIView" destination="eOB-iK-lYV" id="Tqt-di-nWx"/>
                         <outlet property="providedTemplatesUIView" destination="Uay-f6-O9n" id="bH4-8s-1lC"/>
                         <outlet property="segmentOutlet" destination="8gg-TA-jdz" id="YdI-xW-pal"/>
@@ -560,10 +560,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Sxf-cW-UU7">
-                                <rect key="frame" x="0.0" y="167" width="402" height="707"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Sxf-cW-UU7">
+                                <rect key="frame" x="0.0" y="167" width="402" height="606"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="606" id="fqZ-X3-EaT"/>
+                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseableCell" id="dx7-Nt-8d1">
                                         <rect key="frame" x="0.0" y="50" width="402" height="43.666667938232422"/>
@@ -575,18 +577,41 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tLO-xk-qeo">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tLO-xk-qeo">
                                 <rect key="frame" x="226" y="124" width="75" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Button"/>
                                 <connections>
                                     <action selector="buttonAction:" destination="UGs-9S-lWS" eventType="touchUpInside" id="Cdv-Hm-UUy"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="H7t-z9-BUn">
+                                <rect key="frame" x="0.0" y="798" width="402" height="32"/>
+                                <segments>
+                                    <segment title="Progress"/>
+                                    <segment title="History"/>
+                                    <segment title="workout"/>
+                                    <segment title="profile"/>
+                                </segments>
+                                <connections>
+                                    <action selector="homeSegPressed:" destination="yCc-fb-SgY" eventType="valueChanged" id="bEa-Mt-CZs"/>
+                                    <action selector="segmentedPressed:" destination="UGs-9S-lWS" eventType="valueChanged" id="cPj-4f-THz"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="EXY-7h-f6K"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="H7t-z9-BUn" firstAttribute="top" secondItem="Sxf-cW-UU7" secondAttribute="bottom" constant="25" id="ABI-Dc-ufi"/>
+                            <constraint firstItem="tLO-xk-qeo" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="EXY-7h-f6K" secondAttribute="leading" id="CNp-9z-ZPO"/>
+                            <constraint firstItem="Sxf-cW-UU7" firstAttribute="top" secondItem="tLO-xk-qeo" secondAttribute="bottom" constant="8" symbolic="YES" id="LdM-lc-3Q7"/>
+                            <constraint firstItem="Sxf-cW-UU7" firstAttribute="leading" secondItem="H7t-z9-BUn" secondAttribute="leading" id="a8v-S0-2FF"/>
+                            <constraint firstItem="EXY-7h-f6K" firstAttribute="bottom" secondItem="H7t-z9-BUn" secondAttribute="bottom" constant="11" id="aEu-Z8-zOh"/>
+                            <constraint firstItem="EXY-7h-f6K" firstAttribute="trailing" secondItem="tLO-xk-qeo" secondAttribute="trailing" constant="101" id="eRW-EU-2ea"/>
+                            <constraint firstItem="Sxf-cW-UU7" firstAttribute="trailing" secondItem="H7t-z9-BUn" secondAttribute="trailing" id="fzu-mG-JUu"/>
+                            <constraint firstItem="H7t-z9-BUn" firstAttribute="trailing" secondItem="EXY-7h-f6K" secondAttribute="trailing" id="gNz-4D-D1e"/>
+                            <constraint firstItem="H7t-z9-BUn" firstAttribute="leading" secondItem="EXY-7h-f6K" secondAttribute="leading" id="tBI-sq-CZZ"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Ces-yj-OCu"/>
                     <connections>

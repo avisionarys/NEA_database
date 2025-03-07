@@ -23,7 +23,10 @@ class homeViewController: UIViewController {
     
     @IBOutlet weak var armsWorkout: UIButton!
     
-    @IBOutlet weak var homeViewSeg: UISegmentedControl!
+   
+    @IBOutlet var homeViewSeg: UISegmentedControl!
+    
+   
     
     
     override func viewDidLoad() {
@@ -41,6 +44,14 @@ class homeViewController: UIViewController {
             print("values are nil")
         }
        
+    }
+    
+    
+    
+    
+    // runs after the view has appeard for the user
+    override func viewDidAppear(_ animated: Bool) {
+        homeViewSeg?.selectedSegmentIndex = 2// sets the segment back to the workout segment
     }
 
     //switch statement connected to segmented controller
