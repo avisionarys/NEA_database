@@ -257,6 +257,73 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
             }
         }
     }
+    
+    //finds the most recent weight and reps for each exercise
+    func findMostRecentExerciseData(for nameOfExercise: String, completion: @escaping (Result<(weight: String, reps: String), Error>) -> Void) {
+        // checks to see what user is signed in and if they are authenticated
+        guard let user = Auth.auth().currentUser else {
+            completion(.failure(NSError(domain: "User not authenticated", code: 0, userInfo: nil)))
+            return
+        }
+        //sets constants
+        let userID = user.uid
+        let username = Auth.auth().currentUser?.email ?? "No username"
+        let sanitizedUsername = sanitizeString(string: username)
+
+        // gets the location of the data
+        let usersDataRef = database.child("users_data").child(userID).child(sanitizedUsername)
+
+        // Retrieves the users workout data
+        usersDataRef.observeSingleEvent(of: .value, with: { snapshot in
+            guard let datesSnapshot = snapshot.children.allObjects as? [DataSnapshot] else {
+                completion(.failure(NSError(domain: "Invalid data format: No dates found", code: 0, userInfo: nil)))
+                return
+            }
+
+            // Sort dates so that the most recent is first
+            let sortedDates = datesSnapshot.sorted { $0.key > $1.key }
+
+            var mostRecentData: (weight: String, reps: String)? = nil
+
+            // Iterate through sorted dates to find the most recent exercise data
+            for dateSnapshot in sortedDates {
+                guard let workoutsSnapshot = dateSnapshot.children.allObjects as? [DataSnapshot] else {
+                    continue
+                }
+
+                // Iterate through workouts for the current date
+                for workoutSnapshot in workoutsSnapshot {
+                    guard let workoutData = workoutSnapshot.value as? [String: Any],
+                          let exercises = workoutData["exercises"] as? [String: Any] else {
+                        continue
+                    }
+
+                    // Check if the exercise exists in the workout
+                    if let exerciseData = exercises[nameOfExercise] as? [String: Any],
+                       let weight = exerciseData["weight"] as? String,
+                       let reps = exerciseData["reps"] as? String {
+                        mostRecentData = (weight: weight, reps: reps)
+                        break
+                    }
+                }
+
+                // If most recent data is found, the code stops looping
+                if mostRecentData != nil {
+                    break
+                }
+            }
+
+            // Return the most recent data or 0 if no recent data
+            if let data = mostRecentData {
+                completion(.success(data))
+            } else {
+                completion(.success((weight: "0", reps: "0")))
+            }
+        }) { error in
+            // Handles any error
+            completion(.failure(error))
+        }
+    }
 
 }
     
@@ -276,9 +343,30 @@ extension templateViewController: UITableViewDataSource {
         getMaxWeight(name: theName) { weightLabel in // calls the function to get the weight for that exercise
             if let weightLabel = weightLabel {
                 print("maxweight: \(weightLabel)")
-                cell.previousWeight.text = weightLabel//sets the weight
+                cell.recordWeight.text = weightLabel//sets the weight
             } else {
                 print("Failed to fetch the label.")//if unable , will print error
+            }
+        }
+        
+
+        findMostRecentExerciseData(for: theName) { result in
+            switch result {
+            case .success(let data):
+                // Store weight and reps as constants
+                let mostRecentWeight = data.weight
+                let mostRecentReps = data.reps
+
+                
+                print("Most recent weight for \(theName): \(mostRecentWeight)")
+                print("Most recent reps for \(theName): \(mostRecentReps)")
+                // sets the labels in the tableView to theeir specific values
+                cell.previousWeight.text = mostRecentWeight
+                cell.previousReps.text = mostRecentReps
+
+            case .failure(let error):
+                // Handles the error
+                print("Error fetching most recent exercise data: \(error.localizedDescription)")
             }
         }
         
