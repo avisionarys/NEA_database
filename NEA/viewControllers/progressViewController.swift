@@ -22,6 +22,9 @@ class progressViewController: UIViewController {
         //hides the back button back to the register/login screen set by the navigation controller
         navigationItem.hidesBackButton = true
         
+        muscleGroupsTable.register(UINib(nibName: "progressTableViewCell" , bundle: nil), forCellReuseIdentifier: "reuseableCell")
+        
+        title  =  "Progress"
         
         
     }
@@ -52,16 +55,16 @@ class progressViewController: UIViewController {
     
     
     var muscleGroup: [muscleGroups] = [
-        muscleGroups(groupName: "Chest"),
-        muscleGroups(groupName:"back"),
-        muscleGroups(groupName:"hamstring"),
-        muscleGroups(groupName: "calves"),
-        muscleGroups(groupName: "quads"),
-        muscleGroups(groupName: "neck"),
-        muscleGroups(groupName:"abs"),
-        muscleGroups(groupName:"shoulders"),
-        muscleGroups(groupName: "forearms"),
-        muscleGroups(groupName:"triceps")
+        muscleGroups(groupName: "chest",trained: "nil"),
+        muscleGroups(groupName:"back",trained: "nil"),
+        muscleGroups(groupName:"hamstring",trained: "nil"),
+        muscleGroups(groupName: "calves",trained: "nil"),
+        muscleGroups(groupName: "quads",trained: "nil"),
+        muscleGroups(groupName: "neck",trained: "nil"),
+        muscleGroups(groupName:"abs",trained: "nil"),
+        muscleGroups(groupName:"shoulders",trained: "nil"),
+        muscleGroups(groupName: "forearms",trained: "nil"),
+        muscleGroups(groupName:"triceps",trained: "nil")
         
     ]
     
@@ -97,7 +100,7 @@ class progressViewController: UIViewController {
         let oneWeekAgo = calendar.date(byAdding: .day, value: -7, to: currentDate)! // Calculate date 7 days ago
         //retrives all the data from the users_data
         usersDataRef.observeSingleEvent(of: .value,with: { snapshot in
-            var muscleGroups: Set<String> = [] // defines the array the muscleGroups will be added to
+            var trainedMuscleGroups: Set<String> = [] // defines the array the muscleGroups will be added to
             //checks the data is formated as an array of dataSnapshot objects
             guard let datesSnapshot = snapshot.children.allObjects as? [DataSnapshot] else {
                 completion(.failure(NSError(domain: "Invalid data format, so no dates found", code: 0, userInfo: nil)))
@@ -123,7 +126,7 @@ class progressViewController: UIViewController {
                     for (_, exerciseData) in exercises {
                         if let exerciseDetails = exerciseData as? [String: Any],
                            let muscleGroup = exerciseDetails["muscleGroup"] as? String {
-                            muscleGroups.insert(muscleGroup)
+                            trainedMuscleGroups.insert(muscleGroup)
                         } else {
                             print("Warning: 'muscleGroup' key not found or not a string for an exercise.")
                         }
@@ -131,7 +134,7 @@ class progressViewController: UIViewController {
                 }
             }
             //if no errrors the completion handler calls success, if not failure
-            completion(.success(Array(muscleGroups)))
+            completion(.success(Array(trainedMuscleGroups)))
         }) { error in
             completion(.failure(error))
         }
@@ -143,35 +146,17 @@ class progressViewController: UIViewController {
 
 
 
+    
 
 
 
 
 
-    //test the function of the code above
-    @IBAction func buttonAction(_ sender: UIButton) {
-        findMuscleGroupsForWeek { result in
-            switch result {
-            case .success(let muscleGroups):
-                //prinst out the muscleGroups if no errors
-                DispatchQueue.main.async {
-                    print("Muscle groups worked this week: \(muscleGroups)")
-                    
-                }
-
-            case .failure(let error):
-                // Handles error
-                DispatchQueue.main.async {
-                    print("Error fetching muscle groups: \(error)")
-             
-                }
-            }
-        }
+      
         
         
         
-        
-    }
+    
         
         
         
@@ -199,9 +184,35 @@ extension progressViewController: UITableViewDataSource {//datasource tells how 
     }
     //provides tableview with a cell for each row
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseableCell", for: indexPath) /*returns a reusable table-view cell object for the specified reuse identifier and adds it to the table*/
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseableCell", for: indexPath) as! progressTableViewCell
+        /*returns a reusable table-view cell object for the specified reuse identifier and adds it to the table*/
+        //sets the name of the group in the array to the lable in cell
+        cell.groupName.text = muscleGroup[indexPath.row].groupName
+        //cells the function and assigns true or false to each muscleGroup
+        findMuscleGroupsForWeek { [self] result in
+            switch result {
+            case .success(let trainedMuscleGroups):
+                //prinst out the muscleGroups if no error
+                print("Muscle groups worked this week: \(trainedMuscleGroups)")
+                for i in 0..<self.muscleGroup.count {
+                    if trainedMuscleGroups.contains(muscleGroup[i].groupName) {
+                        muscleGroup[i].trained = "true" // changes nil to true if trained
+                    } else {
+                        muscleGroup[i].trained = "false" // changes nil false if not trained
+                    }
+                }
+                
+                // changes the label trained to the specific muscleGroup to either true or false
+                cell.beenTrained.text = muscleGroup[indexPath.row].trained
+                
+                
+            case .failure(let error):
+                //hanles the error
+                print("Error fetching muscle groups: \(error)")
+            }
+        }
         
-        cell.textLabel?.text = muscleGroup[indexPath.row].groupName
+        
         return cell
     }
 }

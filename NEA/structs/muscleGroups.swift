@@ -7,9 +7,11 @@
 
 import Foundation
 
-
+// strcut for muscleGroups
 struct muscleGroups{
     let groupName:String
+    var trained: String
    
     
 }
+

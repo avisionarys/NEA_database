@@ -272,20 +272,20 @@ extension templateViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellReused", for: indexPath) as!  TemplateTableViewCell
         cell.nameOfExercise.text = Workouts[indexPath.row]//sets the name of the exercise in the cell to the clicked on cell by the user from exerciseViewController
-        var theName = cell.nameOfExercise.text ?? "No text"
+        let theName = cell.nameOfExercise.text ?? "No text"
         getMaxWeight(name: theName) { weightLabel in // calls the function to get the weight for that exercise
             if let weightLabel = weightLabel {
-                print("Label: \(weightLabel)")
+                print("maxweight: \(weightLabel)")
                 cell.previousWeight.text = weightLabel//sets the weight
             } else {
                 print("Failed to fetch the label.")//if unable , will print error
             }
         }
         
-        
+        return cell
         /*printing = String("Cell \(indexPath.row): nameOfExercise.text = \(cell.nameOfExercise.text ?? "No text"), weight = \(cell.weightTextField.text ?? "No text"). reps \(cell.repsTextField.text ?? "No text")") */
         
-        return cell
+        
     }
     
     

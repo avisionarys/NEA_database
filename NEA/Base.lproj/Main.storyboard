@@ -244,16 +244,22 @@
                                 <rect key="frame" x="51" y="88" width="62" height="34"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="arms"/>
+                                <buttonConfiguration key="configuration" style="filled" title="arms">
+                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="baseBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
                                 <connections>
                                     <action selector="armWorkoutPressed:" destination="qgH-6r-Yn3" eventType="touchUpInside" id="1Yz-Wp-iY6"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X64-Tt-9L3">
                                 <rect key="frame" x="176" y="88" width="56" height="34.333333333333343"/>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="legs"/>
+                                <buttonConfiguration key="configuration" style="filled" title="legs">
+                                    <color key="baseBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ulW-kw-1ch"/>
@@ -566,25 +572,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="606" id="fqZ-X3-EaT"/>
                                 </constraints>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseableCell" id="dx7-Nt-8d1">
-                                        <rect key="frame" x="0.0" y="50" width="402" height="43.666667938232422"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dx7-Nt-8d1" id="stH-IV-cFN">
-                                            <rect key="frame" x="0.0" y="0.0" width="402" height="43.666667938232422"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tLO-xk-qeo">
-                                <rect key="frame" x="226" y="124" width="75" height="35"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                                <connections>
-                                    <action selector="buttonAction:" destination="UGs-9S-lWS" eventType="touchUpInside" id="Cdv-Hm-UUy"/>
-                                </connections>
-                            </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="H7t-z9-BUn">
                                 <rect key="frame" x="0.0" y="798" width="402" height="32"/>
                                 <segments>
@@ -603,11 +591,8 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="H7t-z9-BUn" firstAttribute="top" secondItem="Sxf-cW-UU7" secondAttribute="bottom" constant="25" id="ABI-Dc-ufi"/>
-                            <constraint firstItem="tLO-xk-qeo" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="EXY-7h-f6K" secondAttribute="leading" id="CNp-9z-ZPO"/>
-                            <constraint firstItem="Sxf-cW-UU7" firstAttribute="top" secondItem="tLO-xk-qeo" secondAttribute="bottom" constant="8" symbolic="YES" id="LdM-lc-3Q7"/>
                             <constraint firstItem="Sxf-cW-UU7" firstAttribute="leading" secondItem="H7t-z9-BUn" secondAttribute="leading" id="a8v-S0-2FF"/>
                             <constraint firstItem="EXY-7h-f6K" firstAttribute="bottom" secondItem="H7t-z9-BUn" secondAttribute="bottom" constant="11" id="aEu-Z8-zOh"/>
-                            <constraint firstItem="EXY-7h-f6K" firstAttribute="trailing" secondItem="tLO-xk-qeo" secondAttribute="trailing" constant="101" id="eRW-EU-2ea"/>
                             <constraint firstItem="Sxf-cW-UU7" firstAttribute="trailing" secondItem="H7t-z9-BUn" secondAttribute="trailing" id="fzu-mG-JUu"/>
                             <constraint firstItem="H7t-z9-BUn" firstAttribute="trailing" secondItem="EXY-7h-f6K" secondAttribute="trailing" id="gNz-4D-D1e"/>
                             <constraint firstItem="H7t-z9-BUn" firstAttribute="leading" secondItem="EXY-7h-f6K" secondAttribute="leading" id="tBI-sq-CZZ"/>

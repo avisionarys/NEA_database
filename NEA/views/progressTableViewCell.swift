@@ -20,4 +20,6 @@ class progressTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    @IBOutlet weak var groupName: UILabel!
+    @IBOutlet weak var beenTrained: UILabel!
 }
