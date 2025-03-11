@@ -14,8 +14,7 @@ import FirebaseDatabase
 
 //creating a struct for the data
 
-struct WorkoutData: Codable, Identifiable {
-    @DocumentID var id: String?
+struct WorkoutData {
     let exerciseName: String
     let weight: String
     let reps: String
