@@ -35,7 +35,7 @@
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="registerButton:" destination="PNs-ea-15o" eventType="touchUpInside" id="piR-dc-d9O"/>
+                                    <action selector="loginButton:" destination="PNs-ea-15o" eventType="touchUpInside" id="bIV-Y0-fZY"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TsQ-Ut-LiR">
@@ -48,7 +48,7 @@
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="loginButton:" destination="PNs-ea-15o" eventType="touchUpInside" id="yqQ-rT-aYH"/>
+                                    <action selector="registerButton:" destination="PNs-ea-15o" eventType="touchUpInside" id="8a9-Gy-ciE"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -748,7 +748,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="eUn-Gd-F3g"/>
+        <segue reference="Urk-6p-HfH"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Apple" width="24" height="24"/>

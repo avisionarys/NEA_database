@@ -35,9 +35,9 @@ class exercisesViewController: UIViewController {
         exercise(name: "calve press",muscleArea: "lower body", muscle: "calves"),
         exercise(name:"leg extentions", muscleArea: "lower body", muscle: "quads"),
         exercise(name: "neck curl", muscleArea: "upper body", muscle: "neck"),
-        exercise(name: "cabel crunch", muscleArea: "upper body", muscle: "abs"),
+        exercise(name: "cable crunch", muscleArea: "upper body", muscle: "abs"),
         exercise(name: "shoulder press", muscleArea: "arms", muscle: "shoulders"),
-        exercise(name: "overhand write curl", muscleArea: "arms ", muscle: "forearms"),
+        exercise(name: "overhand wrist curl", muscleArea: "arms ", muscle: "forearms"),
         exercise(name:"tricep dips", muscleArea: "arms", muscle: "triceps")
     ]
     

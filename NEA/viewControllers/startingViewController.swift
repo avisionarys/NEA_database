@@ -14,13 +14,13 @@ class startingViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
-    
-    @IBAction func loginButton(_ sender: UIButton) {
+    //when teh register button is pressed, takes the user to register screen
+    @IBAction func registerButton(_ sender: UIButton) {
         self.performSegue(withIdentifier: "registerScreen", sender: self)
         
     }
-    
-    @IBAction func registerButton(_ sender: UIButton) {
+    // when the login button is pressed, takes the user to login screen
+    @IBAction func loginButton(_ sender: UIButton) {
         self.performSegue(withIdentifier: "loginScreen", sender: self)
     }
     
