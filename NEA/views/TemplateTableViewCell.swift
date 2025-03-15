@@ -30,7 +30,9 @@ class TemplateTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        weightTextField.keyboardType = .numberPad
+        repsTextField.keyboardType = .numberPad
+        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -40,15 +42,7 @@ class TemplateTableViewCell: UITableViewCell {
     }
     
     
-   
-        
-   /* @IBAction func weightfieldEdited(_ sender: Any) {
-        
-        guard let weight = weightTextField.text else { return }
-        guard let reps = repsTextField.text else {return}
-        delegate?.didUpdateText(self, weight: weight, reps: reps)
-    }*/
-    
+
     
     
 }

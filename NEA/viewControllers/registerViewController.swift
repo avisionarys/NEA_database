@@ -27,6 +27,20 @@ class registerviewcontroller: UIViewController {
     
     @IBOutlet weak var passwordTextField: UITextField!
     
+    
+    override func viewDidLoad() {
+           super.viewDidLoad()
+        // Set the keyboard type
+        ageTextField.keyboardType = .numberPad
+        weightTextField.keyboardType = .numberPad
+        heightTextField.keyboardType = .numberPad
+        
+       }
+    
+    
+    
+    
+    
     //function using regular expression to check email is valid format
     @IBAction func registerPressed(_ sender: UIButton) {
         func checkEmailValidity(email: String) -> Bool {
