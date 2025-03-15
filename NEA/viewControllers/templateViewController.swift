@@ -91,7 +91,7 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
         return sanitizedString
     }
     
-    func saveToFirebase(data: [WorkoutData]) {
+    func saveToFirebase(data: [WorkoutData]) throws {
             // Check if user is signed in
             if let user = Auth.auth().currentUser {
                 let userID = user.uid
@@ -117,16 +117,6 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
                             print("Error saving workout data: \(error)")
                         } else {
                             print("Workout data saved successfully")
-
-                            // Navigate back to the home screen
-                            if let viewControllers = self.navigationController?.viewControllers {
-                                for viewController in viewControllers {
-                                    if viewController is homeViewController {
-                                        self.navigationController?.popToViewController(viewController, animated: true)
-                                        return
-                                    }
-                                }
-                            }
                         }
                     }
                 }
@@ -152,30 +142,44 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
             var muscleGroup:String? = nil
             
             dispatchGroup.enter()
-
-                    getMuscleForExercise(exerciseName: exerciseName) { muscle in
-                        if let muscle = muscle {
-                            muscleGroup = muscle
-                        } else {
-                            print("Could not retrieve muscle information.")
+            
+            getMuscleForExercise(exerciseName: exerciseName) { muscle in
+                if let muscle = muscle {
+                    muscleGroup = muscle
+                } else {
+                    print("Could not retrieve muscle information.")
+                }
+                
+                // Create the workout data object
+                let workoutData = WorkoutData(exerciseName: exerciseName, weight: weight, reps: reps, muscleGroup: muscleGroup ?? "nil")
+                self.dataForExercise.append(workoutData)
+                
+                // Leave the dispatch group after the async task is complete
+                self.dispatchGroup.leave()
+            }
+        }
+        
+        // Notify when all tasks in the dispatch group are complete
+        dispatchGroup.notify(queue: .main) {
+            do {
+                // Attempt to save to Firebase
+                try self.saveToFirebase(data: self.dataForExercise)
+                
+                // Navigate to the home view controller if successful
+                if let viewControllers = self.navigationController?.viewControllers {
+                    for viewController in viewControllers {
+                        if viewController is homeViewController {
+                            self.navigationController?.popToViewController(viewController, animated: true)
+                            return
                         }
-
-                        // Create the workout data object
-                        let workoutData = WorkoutData(exerciseName: exerciseName, weight: weight, reps: reps, muscleGroup: muscleGroup ?? "nil")
-                        self.dataForExercise.append(workoutData)
-
-                        // Leave the dispatch group after the async task is complete
-                        self.dispatchGroup.leave()
                     }
                 }
-
-                // Notify when all tasks in the dispatch group are complete
-                dispatchGroup.notify(queue: .main) {
-                    // Save to Firebase after all async tasks are done
-                    self.saveToFirebase(data: self.dataForExercise)
-                }
-        
+            } catch {
+                // Handle the error appropriately
+                print("Error saving data: \(error.localizedDescription)")
+            }
         }
+    }
     
  
 

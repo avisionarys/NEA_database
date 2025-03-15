@@ -73,7 +73,23 @@ class armsViewController: UIViewController {
         }
         //this will run after all the tasks above have finished
         dispatchGroup.notify(queue: .main) {
-            self.templateVC.saveToFirebase(data: self.dataForExercise)
+            do {
+                // Attempt to save to Firebase
+                try self.templateVC.saveToFirebase(data: self.dataForExercise)
+
+                // Navigate to the home view controller if successful
+                if let viewControllers = self.navigationController?.viewControllers {
+                    for viewController in viewControllers {
+                        if viewController is homeViewController {
+                            self.navigationController?.popToViewController(viewController, animated: true)
+                            return
+                        }
+                    }
+                }
+            } catch {
+                // Handle the error appropriately
+                print("Error saving data: \(error.localizedDescription)")
+            }
         }
         
     }
