@@ -101,6 +101,12 @@ class homeViewController: UIViewController {
         
     }
     
+    @IBAction func legWorkoutPressed(_ sender: Any) {
+        self.performSegue(withIdentifier: "legsSeg", sender: self)
+        
+        
+    }
+    
     
     @IBAction func homeSegPressed(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex{

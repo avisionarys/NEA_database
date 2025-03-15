@@ -260,6 +260,9 @@
                                 <buttonConfiguration key="configuration" style="filled" title="legs">
                                     <color key="baseBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="legWorkoutPressed:" destination="qgH-6r-Yn3" eventType="touchUpInside" id="NXu-dh-og9"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ulW-kw-1ch"/>
@@ -279,6 +282,7 @@
                     </view>
                     <connections>
                         <segue destination="Gz6-WN-lBx" kind="show" identifier="armsSeg" id="m5p-kJ-4QB"/>
+                        <segue destination="3Fh-cz-sLJ" kind="show" identifier="legsSeg" id="Wfu-Us-H1E"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vcH-AL-bdQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -746,7 +750,54 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MQ8-pK-NNW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3161" y="-556"/>
+            <point key="canvasLocation" x="2448" y="-693"/>
+        </scene>
+        <!--Legs View Controller-->
+        <scene sceneID="SxZ-vU-NH2">
+            <objects>
+                <viewController storyboardIdentifier="legsViewController" id="3Fh-cz-sLJ" customClass="legsViewController" customModule="NEA" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="msQ-il-Cqw">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="238"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="dYJ-mb-akd">
+                                <rect key="frame" x="0.0" y="172" width="402" height="702"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="702" id="rLc-NQ-XcX"/>
+                                </constraints>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QfU-ct-nhN">
+                                <rect key="frame" x="247" y="76" width="85" height="35"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="finished"/>
+                                <connections>
+                                    <action selector="finishedPressed:" destination="3Fh-cz-sLJ" eventType="touchUpInside" id="FdG-HH-3T3"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="URI-Qe-lxG"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="QfU-ct-nhN" firstAttribute="top" secondItem="URI-Qe-lxG" secondAttribute="top" constant="76" id="Cpj-p7-P13"/>
+                            <constraint firstItem="dYJ-mb-akd" firstAttribute="top" secondItem="QfU-ct-nhN" secondAttribute="bottom" constant="61" id="EZS-es-d9M"/>
+                            <constraint firstItem="URI-Qe-lxG" firstAttribute="trailing" secondItem="QfU-ct-nhN" secondAttribute="trailing" constant="58" id="OEg-mD-JNP"/>
+                            <constraint firstItem="dYJ-mb-akd" firstAttribute="leading" secondItem="URI-Qe-lxG" secondAttribute="leading" id="QOz-Kh-Oq7"/>
+                            <constraint firstItem="QfU-ct-nhN" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="URI-Qe-lxG" secondAttribute="leading" id="te2-gh-RV9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="dYJ-mb-akd" secondAttribute="trailing" constant="-28" id="zdK-Xr-1Q1"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="jEo-0H-C8y"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="legsTableView" destination="dYJ-mb-akd" id="pKP-XY-lF2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CSE-ek-vvA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3189.5522388059699" y="-509.38215102974823"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

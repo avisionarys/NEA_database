@@ -139,6 +139,14 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
             let exerciseName = cell.nameOfExercise.text ?? ""
             let weight = cell.weightTextField.text ?? ""
             let reps = cell.repsTextField.text ?? ""
+            
+            //checks if any textfields are empty first
+            if exerciseName.isEmpty || weight.isEmpty || reps.isEmpty {
+                print("One or more text fields are empty. Please fill them out.")
+                return
+            }
+            
+            
             var muscleGroup:String? = nil
             
             dispatchGroup.enter()
