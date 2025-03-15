@@ -107,26 +107,27 @@ extension armsViewController: UITableViewDataSource {//datasource tells how many
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellReused", for: indexPath) as!  TemplateTableViewCell
         cell.nameOfExercise.text = exercises[indexPath.row].name//sets the name of the exercise in the cell to the clicked on cell by the user from exerciseViewController
-        let theName = cell.nameOfExercise.text ?? "No text"
-        self.templateVC.getMaxWeight(name: theName) { weightLabel in // calls the function to get the weight for that exercise
-            if let weightLabel = weightLabel {
-                print("Label: \(weightLabel)")
-                cell.recordWeight.text = weightLabel//sets the weight
-            } else {
-                print("Failed to fetch the label.")//if unable , will print error
+        let exerciseNameLabel = cell.nameOfExercise.text ?? "No text"
+        
+        templateVC.findMaxExerciseWeight(for: exerciseNameLabel) { result in
+            switch result {
+            case .success(let maxWeight):
+                print("Max \(exerciseNameLabel) weight: \(maxWeight)")
+                let weightLabel = "\(maxWeight)"
+                cell.recordWeight.text = weightLabel
+            case .failure(let error):
+                print("Error fetching max weight: \(error)")
             }
         }
         
-        templateVC.findMostRecentExerciseData(for: theName) { result in
+        templateVC.findMostRecentExerciseData(for: exerciseNameLabel) { result in
             switch result {
             case .success(let data):
                 // Store weight and reps as constants
                 let mostRecentWeight = data.weight
                 let mostRecentReps = data.reps
-
-                
-                print("Most recent weight for \(theName): \(mostRecentWeight)")
-                print("Most recent reps for \(theName): \(mostRecentReps)")
+                print("Most recent weight for \(exerciseNameLabel): \(mostRecentWeight)")
+                print("Most recent reps for \(exerciseNameLabel): \(mostRecentReps)")
                 // sets the labels in the tableView to theeir specific values
                 cell.previousWeight.text = mostRecentWeight
                 cell.previousReps.text = mostRecentReps
@@ -136,7 +137,6 @@ extension armsViewController: UITableViewDataSource {//datasource tells how many
                 print("Error fetching most recent exercise data: \(error.localizedDescription)")
             }
         }
-        
         return cell
     }
 }

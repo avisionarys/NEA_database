@@ -245,22 +245,7 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
         }
     
 
-    func getMaxWeight(name: String, completion: @escaping (String?) -> Void) {
-        //sets the constant to be pulled as the parameter
-        let nameOfExercise = name
-        //switch statement so that if and error, it will display it
-        findMaxExerciseWeight(for: nameOfExercise) { result in
-            switch result {
-            case .success(let maxWeight):
-                print("Max \(nameOfExercise) weight: \(maxWeight)")
-                let weightLabel = "\(maxWeight)"
-                completion(weightLabel) // Return the label using the completion handler//
-            case .failure(let error):
-                print("Error fetching max weight: \(error)")
-                completion(nil)
-            }
-        }
-    }
+
     
     //finds the most recent weight and reps for each exercise
     func findMostRecentExerciseData(for nameOfExercise: String, completion: @escaping (Result<(weight: String, reps: String), Error>) -> Void) {
@@ -343,18 +328,21 @@ extension templateViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellReused", for: indexPath) as!  TemplateTableViewCell
         cell.nameOfExercise.text = Workouts[indexPath.row]//sets the name of the exercise in the cell to the clicked on cell by the user from exerciseViewController
-        let theName = cell.nameOfExercise.text ?? "No text"
-        getMaxWeight(name: theName) { weightLabel in // calls the function to get the weight for that exercise
-            if let weightLabel = weightLabel {
-                print("maxweight: \(weightLabel)")
-                cell.recordWeight.text = weightLabel//sets the weight
-            } else {
-                print("Failed to fetch the label.")//if unable , will print error
+        let exerciseNameLabel = cell.nameOfExercise.text ?? "No text"
+        
+        
+        findMaxExerciseWeight(for: exerciseNameLabel) { result in
+            switch result {
+            case .success(let maxWeight):
+                print("Max \(exerciseNameLabel) weight: \(maxWeight)")
+                let weightLabel = "\(maxWeight)"
+                cell.recordWeight.text = weightLabel
+            case .failure(let error):
+                print("Error fetching max weight: \(error)")
             }
         }
         
-
-        findMostRecentExerciseData(for: theName) { result in
+        findMostRecentExerciseData(for: exerciseNameLabel) { result in
             switch result {
             case .success(let data):
                 // Store weight and reps as constants
@@ -362,8 +350,8 @@ extension templateViewController: UITableViewDataSource {
                 let mostRecentReps = data.reps
 
                 
-                print("Most recent weight for \(theName): \(mostRecentWeight)")
-                print("Most recent reps for \(theName): \(mostRecentReps)")
+                print("Most recent weight for \(exerciseNameLabel): \(mostRecentWeight)")
+                print("Most recent reps for \(exerciseNameLabel): \(mostRecentReps)")
                 // sets the labels in the tableView to theeir specific values
                 cell.previousWeight.text = mostRecentWeight
                 cell.previousReps.text = mostRecentReps
@@ -374,7 +362,7 @@ extension templateViewController: UITableViewDataSource {
             }
         }
         
-        return cell
+       return cell
         /*printing = String("Cell \(indexPath.row): nameOfExercise.text = \(cell.nameOfExercise.text ?? "No text"), weight = \(cell.weightTextField.text ?? "No text"). reps \(cell.repsTextField.text ?? "No text")") */
         
         
