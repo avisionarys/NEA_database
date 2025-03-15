@@ -55,6 +55,12 @@ class legsViewController: UIViewController {
             let exerciseName = cell.nameOfExercise.text ?? ""
             let weight = cell.weightTextField.text ?? ""
             let reps = cell.repsTextField.text ?? ""
+            
+            //checks if any textfields are empty first
+            if exerciseName.isEmpty || weight.isEmpty || reps.isEmpty {
+                print("One or more text fields are empty. Please fill them out.")
+                return
+            }
             var muscleGroup:String? = nil
             // starts the synchronization of getting the muscleGroup and creating workout objects
             dispatchGroup.enter()
