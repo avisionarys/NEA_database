@@ -196,9 +196,9 @@ extension progressViewController: UITableViewDataSource {//datasource tells how 
                 print("Muscle groups worked this week: \(trainedMuscleGroups)")
                 for i in 0..<self.muscleGroup.count {
                     if trainedMuscleGroups.contains(muscleGroup[i].groupName) {
-                        muscleGroup[i].trained = "true" // changes nil to true if trained
+                        muscleGroup[i].trained = "\u{2713}" // changes nil to a tick if trained
                     } else {
-                        muscleGroup[i].trained = "false" // changes nil false if not trained
+                        muscleGroup[i].trained =  "\u{274C}"// changes nil to a cross if not trained
                     }
                 }
                 
