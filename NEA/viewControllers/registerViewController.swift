@@ -30,7 +30,7 @@ class registerviewcontroller: UIViewController {
     
     override func viewDidLoad() {
            super.viewDidLoad()
-        // Set the keyboard type
+// set the kayboard type to a numberpad for validity
         ageTextField.keyboardType = .numberPad
         weightTextField.keyboardType = .numberPad
         heightTextField.keyboardType = .numberPad

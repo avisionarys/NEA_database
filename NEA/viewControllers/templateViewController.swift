@@ -87,7 +87,7 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
     @IBOutlet weak var exerciseTableView: UITableView!
     
     func sanitizeString(string: String) -> String {
-        let sanitizedString = string.replacingOccurrences(of: "[.#$\\[\\]]", with: "_", options: .regularExpression)
+        let sanitizedString = string.replacingOccurrences(of: ".", with: "_", options: .regularExpression)
         return sanitizedString
     }
     
@@ -141,7 +141,7 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
             let reps = cell.repsTextField.text ?? ""
             
             //checks if any textfields are empty first
-            if exerciseName.isEmpty || weight.isEmpty || reps.isEmpty {
+            if weight.isEmpty || reps.isEmpty {
                 print("One or more text fields are empty. Please fill them out.")
                 return
             }
