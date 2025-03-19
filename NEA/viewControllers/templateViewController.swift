@@ -15,16 +15,16 @@ import FirebaseDatabase
 
 
 
-class templateViewController: UIViewController, UITableViewDelegate , MyProtocol{
+class templateViewController: UIViewController, UITableViewDelegate , selectExercise{
     
     
-    
+    var Workouts: [String] = []
     
     private let db = Firestore.firestore()
     let database = Database.database().reference()
     @IBOutlet weak var tableView: UITableView!
     
-    var Workouts: [String] = []
+   
     //change the screen using the seg called "segues "
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segues" {

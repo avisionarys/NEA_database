@@ -12,7 +12,7 @@ import Firebase
 import FirebaseDatabase
 
 
-protocol MyProtocol{
+protocol selectExercise{
     
     func addExercise(workout: String)
 }
@@ -21,7 +21,7 @@ protocol MyProtocol{
 class exercisesViewController: UIViewController {
 
     /*var delegate: AddexerciseDelegate?*/
-    var delegate: MyProtocol?
+    var delegate: selectExercise?
     var selectedWorkout: String?
     
     @IBOutlet weak var exerciseTableView: UITableView!
