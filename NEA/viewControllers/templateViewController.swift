@@ -87,7 +87,7 @@ class templateViewController: UIViewController, UITableViewDelegate , MyProtocol
     @IBOutlet weak var exerciseTableView: UITableView!
     
     func sanitizeString(string: String) -> String {
-        let sanitizedString = string.replacingOccurrences(of: ".", with: "_", options: .regularExpression)
+        let sanitizedString = string.replacingOccurrences(of: "[.]", with: "_", options: .regularExpression)
         return sanitizedString
     }
     
