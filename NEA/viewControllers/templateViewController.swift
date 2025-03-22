@@ -146,6 +146,20 @@ class templateViewController: UIViewController, UITableViewDelegate , selectExer
                 return
             }
             
+            if let weights = Double(weight), weights > 0 {
+                print("valid weight")
+            } else {
+                print("invalid weight")
+                return
+            }
+            
+            if let repsAsInt = Int(reps), repsAsInt > 0 {
+                print("valid reps")
+            } else {
+                print("invalid reps")
+                return
+            }
+
             
             var muscleGroup:String? = nil
             
