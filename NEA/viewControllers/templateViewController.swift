@@ -226,11 +226,8 @@ class templateViewController: UIViewController, UITableViewDelegate , selectExer
                         for (exerciseName, exerciseData) in exercises {
                             if exerciseName == nameOfExercise {
                                 if let exerciseDetails = exerciseData as? [String: Any],
-                                   let weight = exerciseDetails["weight"] as? Double {
-                                    exerciseWeights.append(weight)
-                                } else if let exerciseDetails = exerciseData as? [String: Any],
-                                         let weightString = exerciseDetails["weight"] as? String,
-                                         let weight = Double(weightString) {
+                                   let weightString = exerciseDetails["weight"] as? String,
+                                   let weight = Double(weightString) {
                                     exerciseWeights.append(weight)
                                 } else {
                                     print("Warning: 'weight' key not found or not a number for \(nameOfExercise).")
