@@ -318,6 +318,61 @@ class templateViewController: UIViewController, UITableViewDelegate , selectExer
             completion(.failure(error))
         }
     }
+    
+    //creating user's templates
+    @IBAction func createTemplatePressed(_ sender: UIButton) {
+        guard let user = Auth.auth().currentUser else {//getting current user
+                print("User not authenticated.")
+                return
+            }
+
+            // Prompt user for template name
+            let alert = UIAlertController(title: "Template Name", message: "Enter a name for your template", preferredStyle: .alert)
+            alert.addTextField { (textField) in
+                textField.placeholder = "Template Name"
+            }
+            
+            let saveAction = UIAlertAction(title: "Save", style: .default) { [weak alert] _ in
+                guard let textField = alert?.textFields?.first, let nameOfTemplate = textField.text, !nameOfTemplate.isEmpty else {
+                    print("No template name provided.")
+                    return
+                }
+            // creating array to store names
+                var exerciseNames: [String] = []
+            //pulling the exercise names from tabaleview
+                for i in 0..<self.tableView.numberOfRows(inSection: 0) {
+                    guard let cell = self.tableView.cellForRow(at: IndexPath(row: i, section: 0)) as? TemplateTableViewCell else { continue }
+                    let exerciseName = cell.nameOfExercise.text ?? ""
+                    exerciseNames.append(exerciseName)
+                }
+            //creating constants to store data to firebase realtime database
+                let userID = user.uid
+                let sanitizedUsername = self.sanitizeString(string: Auth.auth().currentUser?.email ?? "No username")
+                let userTemplatesRef = Database.database().reference().child("users_templates").child(userID).child(sanitizedUsername).child(nameOfTemplate)
+
+                // Save the array of exercise names to Firebase
+                userTemplatesRef.setValue(exerciseNames) { (error, _) in
+                    if let error = error {
+                        print("Error saving template: \(error.localizedDescription)")
+                    } else {
+                        print("Template saved successfully!")
+                    }
+                }
+            }
+            // allow the user to cancel creating a template
+            alert.addAction(saveAction)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            
+            // Present the alert
+            self.present(alert, animated: true, completion: nil)
+     
+        }
+
+        
+        
+
+    
+    
 
 }
     

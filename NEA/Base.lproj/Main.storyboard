@@ -491,6 +491,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ewe-Ik-Htz">
+                                <rect key="frame" x="250" y="102" width="152" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="save as template"/>
+                                <connections>
+                                    <action selector="createTemplatePressed:" destination="SBt-Dj-16N" eventType="touchUpInside" id="Oa9-0w-ReZ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="zL5-WI-uqe"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -618,36 +627,79 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="262"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Q3X-x8-59J">
-                                <rect key="frame" x="0.0" y="0.0" width="390" height="262"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="my templates" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nuR-el-BrN">
                                 <rect key="frame" x="43" y="24" width="103" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hw8-l9-GOP">
+                                <rect key="frame" x="59" y="98" width="99" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="template1">
+                                    <color key="baseBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <segue destination="VNv-fq-xVw" kind="show" id="d1Y-i7-6pd"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="1Nw-Bt-Tu4"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="Q3X-x8-59J" secondAttribute="bottom" id="GOk-fl-oJ5"/>
                             <constraint firstItem="nuR-el-BrN" firstAttribute="leading" secondItem="3aX-dT-FTF" secondAttribute="leadingMargin" constant="27" id="I4L-Ll-Xvb"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="nuR-el-BrN" secondAttribute="trailing" constant="20" symbolic="YES" id="Lxr-6o-2Gp"/>
-                            <constraint firstItem="Q3X-x8-59J" firstAttribute="leading" secondItem="3aX-dT-FTF" secondAttribute="leading" id="N1X-tR-0vS"/>
                             <constraint firstItem="1Nw-Bt-Tu4" firstAttribute="bottom" secondItem="nuR-el-BrN" secondAttribute="bottom" constant="183" id="WxI-iW-2xy"/>
-                            <constraint firstItem="Q3X-x8-59J" firstAttribute="top" secondItem="3aX-dT-FTF" secondAttribute="top" id="g5P-Ue-0dl"/>
-                            <constraint firstAttribute="trailing" secondItem="Q3X-x8-59J" secondAttribute="trailing" id="oca-6J-MSD"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="myTemplatesTableView" destination="Q3X-x8-59J" id="Nlx-N0-3zY"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iJu-bi-uMa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2501" y="461"/>
+        </scene>
+        <!--User Template View Controller-->
+        <scene sceneID="GHr-bh-gkO">
+            <objects>
+                <viewController storyboardIdentifier="userTemplate" id="VNv-fq-xVw" customClass="userTemplateViewController" customModule="NEA" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="d3l-XM-hKc">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="262"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="VDM-0R-RIv">
+                                <rect key="frame" x="0.0" y="180" width="433" height="694"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="694" id="0Lh-Cz-i0O"/>
+                                </constraints>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="template1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vOc-Su-dtg">
+                                <rect key="frame" x="164" y="62" width="75" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="aql-el-4J1"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="VDM-0R-RIv" secondAttribute="trailing" constant="-59" id="2iE-dZ-E20"/>
+                            <constraint firstItem="aql-el-4J1" firstAttribute="trailing" secondItem="vOc-Su-dtg" secondAttribute="trailing" constant="151" id="Nm7-Bg-89l"/>
+                            <constraint firstItem="vOc-Su-dtg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="aql-el-4J1" secondAttribute="leading" id="egj-Mo-52f"/>
+                            <constraint firstItem="VDM-0R-RIv" firstAttribute="top" secondItem="vOc-Su-dtg" secondAttribute="bottom" constant="97" id="kno-Ls-cdl"/>
+                            <constraint firstItem="VDM-0R-RIv" firstAttribute="leading" secondItem="aql-el-4J1" secondAttribute="leading" id="lMw-5H-Fr6"/>
+                            <constraint firstItem="vOc-Su-dtg" firstAttribute="top" secondItem="aql-el-4J1" secondAttribute="top" constant="62" id="w2T-Vx-cAN"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="tue-km-Yks"/>
+                    <connections>
+                        <outlet property="userTemplateTable" destination="VDM-0R-RIv" id="Tyd-TH-mT6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qQw-XP-gtX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3373" y="461"/>
         </scene>
         <!--Progress View Controller-->
         <scene sceneID="6Yt-xh-7CQ">
@@ -677,8 +729,8 @@
                                     <action selector="segmentedPressed:" destination="UGs-9S-lWS" eventType="valueChanged" id="cPj-4f-THz"/>
                                 </connections>
                             </segmentedControl>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="muscle groups you have trained this week " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U0e-Dr-pTq">
-                                <rect key="frame" x="40" y="126" width="323" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="muscle groups you have trained this week " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U0e-Dr-pTq">
+                                <rect key="frame" x="40" y="126" width="322" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
