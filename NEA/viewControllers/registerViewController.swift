@@ -37,17 +37,17 @@ class registerviewcontroller: UIViewController {
         
        }
     
-    
+    func checkEmailValidity(email: String) -> Bool {
+        let emailPattern = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}"
+        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailPattern)
+        return emailPredicate.evaluate(with: email)
+    }
     
     
     
     //function using regular expression to check email is valid format
     @IBAction func registerPressed(_ sender: UIButton) {
-        func checkEmailValidity(email: String) -> Bool {
-            let emailPattern = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}"
-            let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailPattern)
-            return emailPredicate.evaluate(with: email)
-        }
+
         //defines constants for the contents of the textfields
         if let email = emailTextField.text, let name = nameTextField.text, let surname = surnameTextField.text, let age = ageTextField.text, let weight = weightTextField.text, let height = heightTextField.text, let password = passwordTextField.text {
             let userID = UUID().uuidString
@@ -57,7 +57,7 @@ class registerviewcontroller: UIViewController {
                         print(error)
                     }else {
                         //stores the data on cloud firestore//
-                        self.db.collection("users").document(userID).setData([
+                        self.db.collection("users_login_data").document(userID).setData([
                             "name": name,
                             "surname": surname,
                             "email": email,
@@ -74,11 +74,10 @@ class registerviewcontroller: UIViewController {
                         print("Data successfully saved to Firestore.")
                         self.performSegue(withIdentifier: "reghomeViewController", sender: self)
                     }
-                }
-                
+                }//prints out email is invalid
+            }else{
+                    print("Email not valid")
             }
-            
-            
         }
     }
     
