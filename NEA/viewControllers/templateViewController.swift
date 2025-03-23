@@ -134,6 +134,12 @@ class templateViewController: UIViewController, UITableViewDelegate , selectExer
 
     @IBAction func saveWorkoutData(_ sender: UIBarButtonItem) {
         
+        if tableView.numberOfRows(inSection: 0) == 0 {
+            // Handle the case where there are no rows
+            print("no data to be saved")
+            return
+        }
+        
         for i in 0..<tableView.numberOfRows(inSection: 0) {
             guard let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as? TemplateTableViewCell else { continue }
             let exerciseName = cell.nameOfExercise.text ?? ""
@@ -335,6 +341,13 @@ class templateViewController: UIViewController, UITableViewDelegate , selectExer
     
     //creating user's templates
     @IBAction func createTemplatePressed(_ sender: UIButton) {
+        if tableView.numberOfRows(inSection: 0) == 0 {
+            // Handle the case where there are no rows
+            print("no values to create template")
+            return
+        }
+        
+        
         guard let user = Auth.auth().currentUser else {//getting current user
                 print("User not authenticated.")
                 return
@@ -370,6 +383,15 @@ class templateViewController: UIViewController, UITableViewDelegate , selectExer
                         print("Error saving template: \(error.localizedDescription)")
                     } else {
                         print("Template saved successfully!")
+                        if let viewControllers = self.navigationController?.viewControllers {
+                            for viewController in viewControllers {
+                                if viewController is homeViewController {
+                                    self.navigationController?.popToViewController(viewController, animated: true)
+                                    return
+                                }
+                            }
+                        }
+                        
                     }
                 }
             }
