@@ -27,12 +27,22 @@ class homeViewController: UIViewController {
     @IBOutlet var homeViewSeg: UISegmentedControl!
     
    
+    @IBOutlet weak var userTemplatesTable: UITableView?
+    
+    let database = Database.database().reference()
+    
+    let templateVC = templateViewController()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        userTemplatesTable?.dataSource = self
+        
+
         //hide the backbutton that was inialsied by the navigation controller
         navigationItem.hidesBackButton = true
+        
         
         //define constahts and make the UIviews display on the screen
         if let myTemplatesView = myTemplatesUIView, let providedTemplatesView = providedTemplatesUIView {
@@ -52,6 +62,8 @@ class homeViewController: UIViewController {
     // runs after the view has appeard for the user
     override func viewDidAppear(_ animated: Bool) {
         homeViewSeg?.selectedSegmentIndex = 2// sets the segment back to the workout segment
+        //call the function to get the names in after the view loads
+        getTemplateNames()
     }
 
     //switch statement connected to segmented controller
@@ -120,10 +132,54 @@ class homeViewController: UIViewController {
         
     }
     
+    var templateNames: [String] = []
+    //getting the nanes of the templates the user has creaeted
+    func getTemplateNames() {
+        guard let user = Auth.auth().currentUser else {//getting current user
+            print("User not authenticated.")
+            return}
+        //creating constants for databse referance
+        let userID = user.uid
+        let workoutID = UUID().uuidString
+        let username = Auth.auth().currentUser?.email ?? "No username"
+        let sanitizedUsername = templateVC.sanitizeString(string: username)
+        
+        let userTemplatesRef = database.child("users_templates").child(userID).child(sanitizedUsername)
+        //pulling all the naames from the realtime database and storing them in an array
+        userTemplatesRef.observeSingleEvent(of: .value,with: { (snapshot) in
+            if let templates = snapshot.value as? [String: [String]] {
+                // Iterate through the templates and store the names and data
+                for templateName in templates {
+                    print("Template Name: \(templateName)")
+                }
+                self.templateNames = Array(templates.keys)
+                self.userTemplatesTable?.reloadData() // Reloads the table view to display the data
+            } else {
+                print("No template data found for this user.")
+            }
+        }) { error in //error handling
+            print("Failed to retrieve template data.")
+        }
+    }
+                                            
+                                    
   
     
     
     
+}
+
+extension homeViewController: UITableViewDataSource {//datasource tells how many rows to display
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return templateNames.count
+    }
+    //provides tableview with a cell for each row
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "templateCelllReused", for: indexPath) /*returns a reusable table-view cell object for the specified reuse identifier and adds it to the table*/
+        
+        cell.textLabel?.text = templateNames[indexPath.row]
+        return cell
+    }
 }
      
 
