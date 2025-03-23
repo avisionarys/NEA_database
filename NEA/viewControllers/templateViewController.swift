@@ -25,7 +25,7 @@ class templateViewController: UIViewController, UITableViewDelegate , selectExer
     @IBOutlet weak var tableView: UITableView!
     
    
-    //change the screen using the seg called "segues "
+    //pass the value before the seg
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segues" {
             if let secondVC = segue.destination as? exercisesViewController {

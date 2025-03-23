@@ -13,23 +13,34 @@ import FirebaseDatabase
 
 
 class userTemplateViewController: UIViewController {
+    //defined a variable to store the name of the template
+    var usersTemplate: String?
     
     @IBOutlet weak var userTemplateTable: UITableView!
     var exerciseNames: [String] = [] // Array to store the exercise names
     
     let templateVC = templateViewController()
 
-        override func viewDidLoad() {
-            super.viewDidLoad()
-
-            // Register your custom cell (if you're not doing it in the storyboard)
-            userTemplateTable.register(UINib(nibName: "TemplateTableViewCell" , bundle: nil), forCellReuseIdentifier: "cellReused")
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        userTemplateTable.register(UINib(nibName: "TemplateTableViewCell" , bundle: nil), forCellReuseIdentifier: "cellReused")
+        
+        userTemplateTable.dataSource  = self
+        //sets the constant passed through to the variable above so it can be passed as a paramter in the function
+        if let passedTemplateName = usersTemplate{
+            print("selected template is \(passedTemplateName)")
+            fetchTemplateData(templateName:passedTemplateName)
             
-            userTemplateTable.dataSource  = self
-            fetchTemplateData()
         }
+        
+        title  = usersTemplate
+        
+    }
+    
+    
 
-    func fetchTemplateData() {
+    func fetchTemplateData(templateName:String? = nil) {
         guard let user = Auth.auth().currentUser else {
             print("User not authenticated.")
             return
@@ -38,7 +49,7 @@ class userTemplateViewController: UIViewController {
         let userID = user.uid
         let username = Auth.auth().currentUser?.email ?? "No username"
         let sanitizedUsername = templateVC.sanitizeString(string: username)
-        let userTemplatesRef = Database.database().reference().child("users_templates").child(userID).child(sanitizedUsername).child("template1")
+        let userTemplatesRef = Database.database().reference().child("users_templates").child(userID).child(sanitizedUsername).child(templateName ?? "")
         
         userTemplatesRef.observeSingleEvent(of: .value) { (snapshot) in
             if let templateData = snapshot.value as? [String] {

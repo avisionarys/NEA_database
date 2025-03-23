@@ -33,11 +33,25 @@ class homeViewController: UIViewController {
     
     let templateVC = templateViewController()
     
+ //sends the constant through and sets it to usersTemplate
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "userTemplateSegue" {
+            if let userTemplatesVC = segue.destination as? userTemplateViewController {
+                if let templateName = sender as? String { // Retrieve the passed name
+                    userTemplatesVC.usersTemplate = templateName
+                }
+            }
+        }
+    }
+    
+    
+ 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         userTemplatesTable?.dataSource = self
+        userTemplatesTable?.delegate = self
         
 
         //hide the backbutton that was inialsied by the navigation controller
@@ -140,7 +154,6 @@ class homeViewController: UIViewController {
             return}
         //creating constants for databse referance
         let userID = user.uid
-        let workoutID = UUID().uuidString
         let username = Auth.auth().currentUser?.email ?? "No username"
         let sanitizedUsername = templateVC.sanitizeString(string: username)
         
@@ -181,7 +194,28 @@ extension homeViewController: UITableViewDataSource {//datasource tells how many
         return cell
     }
 }
-     
+
+extension homeViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)//gives the row the user selected an animation
+   
+       //name of the template selected stored in the constant templateName
+        let templateName = templateNames[indexPath.row]
+        
+        print(templateName)
+        
+        //sends the user to the userTemplateViewController witht the constant passing through as well
+        self.performSegue(withIdentifier: "userTemplateSegue", sender: templateName)
+        
+        
+        
+        
+        
+
+    }
+    
+    
+ }
 
 
     
