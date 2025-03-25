@@ -242,7 +242,7 @@ class templateViewController: UIViewController, UITableViewDelegate , selectExer
                               let exercises = workoutData["exercises"] as? [String: Any] else {
                             continue
                         }
-                        // takes the weight for each specific exercise, checks if a string or double and converts to a double to check the maximunm one
+                        // takes the weight for each specific exercise, sets it to a double and then append it to the array to be compared
                         for (exerciseName, exerciseData) in exercises {
                             if exerciseName == nameOfExercise {
                                 if let exerciseDetails = exerciseData as? [String: Any],
@@ -250,8 +250,10 @@ class templateViewController: UIViewController, UITableViewDelegate , selectExer
                                    let weight = Double(weightString) {
                                     exerciseWeights.append(weight)
                                 } else {
-                                    print("Warning: 'weight' key not found or not a number for \(nameOfExercise).")
+                                    print("Weight not found  for \(nameOfExercise).")
                                 }
+                            }else{
+                                print("Dictionary not found for \(nameOfExercise).")
                             }
                         }
                     }
