@@ -77,7 +77,7 @@ class userTemplateViewController: UIViewController {
             let reps = cell.repsTextField.text ?? ""
             
             //checks if any textfields are empty first
-            if exerciseName.isEmpty || weight.isEmpty || reps.isEmpty {
+            if weight.isEmpty || reps.isEmpty {
                 print("One or more text fields are empty. Please fill them out.")
                 return
             }
