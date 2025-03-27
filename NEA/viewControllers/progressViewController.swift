@@ -108,8 +108,8 @@ class progressViewController: UIViewController {
             }
             // loops through each date and checks if within a week and checks they are all objects
             for dateSnapshot in datesSnapshot {
-                let dateString = dateSnapshot.key // Assuming date is the key
-                guard let date = self.dateFormatter.date(from: dateString),
+                let dateString = dateSnapshot.key 
+                guard let date = dateString
                       date >= oneWeekAgo else { continue } // Check if date is within the last week
 
 
