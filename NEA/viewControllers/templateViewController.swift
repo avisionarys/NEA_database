@@ -101,11 +101,11 @@ class templateViewController: UIViewController, UITableViewDelegate , selectExer
                 //finding the date and setting it to a constant
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd"
-                let dateString = dateFormatter.string(from: Date())
+                let currentDate = dateFormatter.string(from: Date())
              
 
                 // Create a reference to the Firebase node
-                let workoutRef = database.child("users_data").child(userID).child(sanitizedUsername).child(dateString).child(workoutID)
+                let workoutRef = database.child("users_data").child(userID).child(sanitizedUsername).child(currentDate).child(workoutID)
 
                 // Loop through each workout data object
                 for workoutData in data {
