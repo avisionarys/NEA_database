@@ -212,7 +212,7 @@ class templateViewController: UIViewController, UITableViewDelegate , selectExer
  
 
     // finding the max weight for each exercise //
-    func gettingPersonalRecord(for nameOfExercise: String, completion: @escaping (Result<Double, Error>) -> Void) {
+    func findMaxExerciseWeight(for nameOfExercise: String, completion: @escaping (Result<Double, Error>) -> Void) {
         guard let user = Auth.auth().currentUser else { // checks user authentication, guard = readability
             completion(.failure(NSError(domain: "User not authenticated", code: 0, userInfo: nil)))
             return
@@ -429,7 +429,7 @@ extension templateViewController: UITableViewDataSource {
         let exerciseNameLabel = cell.nameOfExercise.text ?? "No text"
         
         
-       gettingPersonalRecord(for: exerciseNameLabel) { result in
+       findMaxExerciseWeight(for: exerciseNameLabel) { result in
             switch result {
             case .success(let maxWeight):
                 print("Max \(exerciseNameLabel) weight: \(maxWeight)")
